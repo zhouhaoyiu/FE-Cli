@@ -6,5 +6,5 @@ exports.__esModule = true;
 exports.getGitInfo = exports.generatePackagejson = void 0;
 var generatePackagejson_1 = __importDefault(require("./bin/generatePackagejson"));
 exports.generatePackagejson = generatePackagejson_1["default"];
-var getGitInfo_1 = __importDefault(require("./bin/getGitInfo"));
-exports.getGitInfo = getGitInfo_1["default"];
+var getGinInfo_1 = __importDefault(require("./bin/getGinInfo"));
+exports.getGitInfo = getGinInfo_1["default"];
