@@ -23,7 +23,7 @@
     "dayjs": "^1.11.2",
     "ejs": "^3.1.2",
     "execa": "^1.0.0",
-    "slash": "^3.0.0"
+    "slash": "^4.0.0"
   },
   "devDependencies": {
     "@types/jest": "^27.5.1",
