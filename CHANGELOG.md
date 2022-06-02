@@ -4,4 +4,4 @@
 
 #### Committers: 1
 
-* zhouhaoyu ([@zhouhaoyiu](https://github.com/zhouhaoyiu))
+- zhouhaoyu ([@zhouhaoyiu](https://github.com/zhouhaoyiu))

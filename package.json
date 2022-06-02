@@ -5,6 +5,10 @@
   "repository": "https://github.com/FE-WROLD-TEAM/FE-Cli.git",
   "author": "zhouhaoyu <67226385+zhouhaoyiu@users.noreply.github.com>",
   "license": "MIT",
+  "scripts": {
+    "dev": "tsc fe.ts -w --resolveJsonModule --esModuleInterop",
+    "format": "prettier --write **/*.{ts,js} --ignore-path .gitignore"
+  },
   "bin": {
     "fe": "fe.ts"
   },
@@ -12,9 +16,12 @@
     "commander": "^7.1.0",
     "copy-dir": "^0.4.0",
     "ejs": "^3.1.2",
+    "execa": "^1.0.0",
     "slash": "^3.0.0"
   },
   "devDependencies": {
-    "@types/node": "^17.0.38"
+    "@types/node": "^17.0.38",
+    "cross-env": "^7.0.3",
+    "prettier": "^2.6.2"
   }
 }

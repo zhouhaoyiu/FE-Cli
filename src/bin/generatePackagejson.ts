@@ -6,11 +6,11 @@ function generatePackagejson(name: string, author = "") {
     main: "index.js",
     author: author,
     scripts: {
-      test: 'echo "Error: no test specified" && exit 1',
+      test: 'echo "Error: no test specified" && exit 1'
     },
     keywords: [],
     dependencies: {},
-    devDependencies: {},
+    devDependencies: {}
   };
   return packagejson;
 }
