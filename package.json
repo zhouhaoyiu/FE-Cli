@@ -10,7 +10,8 @@
     "dev": "cross-env NODE_ENV=development node env.mjs && tsc fe.ts -d -w --resolveJsonModule --esModuleInterop",
     "prod": "cross-env NODE_ENV=production node env.mjs && tsc fe.ts -d -w --resolveJsonModule --esModuleInterop",
     "format": "prettier --write **/*.{ts,js} --ignore-path .gitignore",
-    "update": "node ./version.js"
+    "update": "node ./version.js",
+    "test": "jest"
   },
   "bin": {
     "fe": "fe.js"

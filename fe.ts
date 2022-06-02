@@ -15,7 +15,7 @@ import _package from "./package.json";
 
 const environment: string = fs
   .readFileSync(".env", "utf-8")
-  .match(/NODE_ENV=(.*)/)[1];
+  .match(/NODE_ENV=(.*)/)![1];
 const DEV: boolean = environment === "development";
 
 const program: commander.Command = new Command();

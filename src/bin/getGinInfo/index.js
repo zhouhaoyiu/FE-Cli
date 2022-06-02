@@ -12,12 +12,19 @@ function getGitInfo(opt) {
     var config = fs_1["default"].existsSync(configPath)
         ? fs_1["default"].readFileSync(configPath, "utf-8")
         : "";
-    var user = config.match(/name = (.*)/)[1];
-    var email = config.match(/email = (.*)/)[1];
-    var author = user && email ? "".concat(user, " <").concat(email, ">") : "";
+    var name = "noname";
+    var email = "noemail";
+    if (config.match(/name = (.*)/) && config.match(/name = (.*)/).length > 1) {
+        name = config.match(/name = (.*)/)[1];
+    }
+    if (config.match(/email = (.*)/) &&
+        config.match(/email = (.*)/).length > 1) {
+        email = config.match(/email = (.*)/)[1];
+    }
+    var author = name && email ? "".concat(name, " <").concat(email, ">") : "";
     switch (opt) {
         case "name":
-            return user;
+            return name;
         case "email":
             return email;
         case "author":
