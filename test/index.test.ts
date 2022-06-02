@@ -12,8 +12,6 @@ describe("index", () => {
   test(
     "test init",
     async () => {
-      // 执行 npm install
-      await execa("npm", ["install"]);
       // 执行 npm link
       await execa("npm", ["link"]);
       // 执行 fe init testDir
