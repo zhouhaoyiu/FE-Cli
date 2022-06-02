@@ -1,0 +1,11 @@
+{
+  "name": "zhy",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "author": "zhouhaoyu <67226385+zhouhaoyiu@users.noreply.github.com>",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": []
+}

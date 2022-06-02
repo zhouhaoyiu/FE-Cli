@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "pillys",
+    "email": "pillys@163.com",
+    "url": "http://www.calljs.com"
+  },
+  "dependencies": {},
+  "description": "mkdir-p",
+  "devDependencies": {},
+  "keywords": [
+    "mkdir-p",
+    "mkdir",
+    "mkdirp"
+  ],
+  "main": "index.js",
+  "name": "mkdir-p",
+  "repository": {
+    "url": "https://github.com/pillys/mkdir-p",
+    "type": "git"
+  },
+  "version": "0.0.7",
+  "readmeFilename": "README.md",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pillys/mkdir-p/issues"
+  },
+  "homepage": "https://github.com/pillys/mkdir-p",
+  "scripts": {}
+}
