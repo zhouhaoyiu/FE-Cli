@@ -29,6 +29,8 @@ describe("index", () => {
     timeOut
   );
   afterAll(async () => {
-    fs.rmdirSync(testDir, { recursive: true });
+    if (fs.existsSync(testDir)) {
+      fs.rmSync(testDir, { recursive: true });
+    }
   });
 });
