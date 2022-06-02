@@ -3,10 +3,18 @@
 ## Edit
 
   ```shell
+  # development
   npm run dev
   ```
 
-## test
+ OR
+
+  ```shell
+  # production
+  npm run prod
+  ```
+
+## Use
 
   ```shell
   npm install
@@ -18,8 +26,14 @@
   fe init --help
   ```
 
-## format
+## Format
   
   ```shell
   npm run format
+  ```
+
+## Test
+  
+  ```shell
+  npm run test
   ```

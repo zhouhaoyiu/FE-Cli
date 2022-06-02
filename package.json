@@ -5,13 +5,15 @@
   "repository": "https://github.com/FE-WROLD-TEAM/FE-Cli.git",
   "author": "zhouhaoyu <67226385+zhouhaoyiu@users.noreply.github.com>",
   "license": "MIT",
-  "scripts": {
-    "dev": "tsc fe.ts -w --resolveJsonModule --esModuleInterop",
+  "type": "commonjs",
+  "scripts": { 
+    "dev": "cross-env NODE_ENV=development node env.mjs && tsc fe.ts -d -w --resolveJsonModule --esModuleInterop",
+    "prod": "cross-env NODE_ENV=production node env.mjs && tsc fe.ts -d -w --resolveJsonModule --esModuleInterop",
     "format": "prettier --write **/*.{ts,js} --ignore-path .gitignore",
     "update": "node ./version.js"
   },
   "bin": {
-    "fe": "fe.ts"
+    "fe": "fe.js"
   },
   "dependencies": {
     "commander": "^7.1.0",

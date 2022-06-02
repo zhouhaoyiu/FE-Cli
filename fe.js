@@ -2,7 +2,11 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -66,10 +70,16 @@ var execa_1 = __importDefault(require("execa"));
 // const copydir = require("copy-dir");
 var src_1 = require("./src");
 var package_json_1 = __importDefault(require("./package.json"));
-var DEV = false;
+// 获得.env文件中的NODE_ENV的值
+var environment = fs_1["default"]
+    .readFileSync(".env", "utf-8")
+    .match(/NODE_ENV=(.*)/)[1];
+var DEV = environment === "development";
 var program = new commander_1.Command();
 program.version(package_json_1["default"].version); // package.json 中的版本号
-// TODO: 可以改成可以自定义的author信息,-a配置 (已经完成) 或者像vue-cli那样通过问题获取
+/**
+ * @todo 可以改成可以自定义的author信息,-a配置 (已经完成) 或者像vue-cli那样通过问题获取
+ */
 program
     .command("init <name>")
     // .description("Initialize a new project")
@@ -102,7 +112,6 @@ program
     generatedir(opt);
 });
 function generatedir(opt) {
-    var _this = this;
     var projectName = opt.projectName, author = opt.author, gitinit = opt.gitinit, isDefault = opt["default"];
     fs_1["default"].mkdirSync(projectName);
     fs_1["default"].mkdirSync("".concat(projectName, "/src"));
@@ -110,7 +119,18 @@ function generatedir(opt) {
     // 生成package.json
     var packageJson = (0, src_1.generatePackagejson)(projectName, author);
     fs_1["default"].writeFileSync("".concat(projectName, "/package.json"), JSON.stringify(packageJson, null, 2));
+    /**
+     * @zhouhaoyiu 2022-06-02 这个功能还没有完成
+     */
     if (gitinit) {
+        initGit(projectName);
+    }
+    /**
+     * @deprecated 还没有完成
+     * @param projectName 项目名称
+     */
+    function initGit(projectName) {
+        var _this = this;
         console.log(".git will be init");
         (0, fs_1.mkdirSync)("".concat(projectName, "/.gitignore"));
         // 在.gitignore中写入默认的忽略文件 当前是node_modules

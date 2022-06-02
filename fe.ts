@@ -11,7 +11,12 @@ import { generatePackagejson, getGitInfo } from "./src";
 
 import _package from "./package.json";
 
-const DEV: boolean = false;
+// 获得.env文件中的NODE_ENV的值
+
+const environment: string = fs
+  .readFileSync(".env", "utf-8")
+  .match(/NODE_ENV=(.*)/)[1];
+const DEV: boolean = environment === "development";
 
 const program: commander.Command = new Command();
 
