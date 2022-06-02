@@ -65,12 +65,6 @@ function updateChangeLog(newVersion) {
   ## 0.0.1 (2022-06-02) - Initial Release
   #### Committers: zhouhaoyu
   */
-  const newChangeLogText =
-    `## ${newVersion} (${dayjs().format("YYYY-MM-DD")})\n` +
-    '\n' +
-    `#### Committer: ${commiter}\n` +
-    changeLog;
-    ;
-    
+  const newChangeLogText = `## ${newVersion} (${dayjs().format("YYYY-MM-DD")})\n` + "\n" + `#### Committer: ${commiter}\n` + changeLog;
   fs.writeFileSync(changeLogPath, newChangeLogText);
 }

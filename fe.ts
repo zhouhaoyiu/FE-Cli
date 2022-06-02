@@ -13,9 +13,7 @@ import _package from "./package.json";
 
 // 获得.env文件中的NODE_ENV的值
 
-const environment: string = fs
-  .readFileSync(".env", "utf-8")
-  .match(/NODE_ENV=(.*)/)![1];
+const environment: string = fs.readFileSync(".env", "utf-8").match(/NODE_ENV=(.*)/)![1];
 const DEV: boolean = environment === "development";
 
 const program: commander.Command = new Command();
@@ -71,10 +69,7 @@ function generatedir(opt: IOpt): void {
   fs.mkdirSync(`${projectName}/test`);
   // 生成package.json
   const packageJson = generatePackagejson(projectName, author);
-  fs.writeFileSync(
-    `${projectName}/package.json`,
-    JSON.stringify(packageJson, null, 2)
-  );
+  fs.writeFileSync(`${projectName}/package.json`, JSON.stringify(packageJson, null, 2));
 
   /**
    * @zhouhaoyiu 2022-06-02 这个功能还没有完成

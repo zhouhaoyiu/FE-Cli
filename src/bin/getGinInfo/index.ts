@@ -5,9 +5,7 @@ import path from "path";
 function getGitInfo(opt: "name" | "email" | "author" | "config"): string {
   // 获得本地git中配置的用户名和邮箱
   const configPath: string = path.join(os.homedir(), ".gitconfig");
-  const config: string = fs.existsSync(configPath)
-    ? fs.readFileSync(configPath, "utf-8")
-    : "";
+  const config: string = fs.existsSync(configPath) ? fs.readFileSync(configPath, "utf-8") : "";
 
   let name: string = "noname";
   let email: string = "noemail";
@@ -15,10 +13,7 @@ function getGitInfo(opt: "name" | "email" | "author" | "config"): string {
   if (config.match(/name = (.*)/) && config.match(/name = (.*)/)!.length > 1) {
     name = config!.match(/name = (.*)/)![1];
   }
-  if (
-    config.match(/email = (.*)/) &&
-    config.match(/email = (.*)/)!.length > 1
-  ) {
+  if (config.match(/email = (.*)/) && config.match(/email = (.*)/)!.length > 1) {
     email = config!.match(/email = (.*)/)![1];
   }
 
