@@ -17,7 +17,9 @@ const program: commander.Command = new Command();
 
 program.version(_package.version); // package.json 中的版本号
 
-// TODO: 可以改成可以自定义的author信息,-a配置 (已经完成) 或者像vue-cli那样通过问题获取
+/**
+ * @todo 可以改成可以自定义的author信息,-a配置 (已经完成) 或者像vue-cli那样通过问题获取
+ */
 program
   .command("init <name>")
   // .description("Initialize a new project")
@@ -69,7 +71,18 @@ function generatedir(opt: IOpt): void {
     JSON.stringify(packageJson, null, 2)
   );
 
+  /**
+   * @zhouhaoyiu 2022-06-02 这个功能还没有完成
+   */
+
   if (gitinit) {
+    initGit(projectName);
+  }
+  /**
+   * @deprecated 还没有完成
+   * @param projectName 项目名称
+   */
+  function initGit(projectName: string): void {
     console.log(`.git will be init`);
     mkdirSync(`${projectName}/.gitignore`);
 
