@@ -23,11 +23,11 @@ program
   // .description("Initialize a new project")
   .option("-d, --default", "Skip prompts and use default preset", false)
   .option("-gi, --gitinit", "Initialize git repo", false)
-  .option("-a, --author <author>", "Author name for git", false)
-  .action((name, options) => {
+  .option("-a, --author <author>", "Author username for git", false)
+  .action((projectName, options) => {
     const author = !options.author ? getGitInfo("author") : options.author;
 
-    console.log(`Initializing a new project ${name}`);
+    console.log(`Initializing a new project ${projectName}`);
 
     if (DEV) {
       console.log(options);
@@ -40,14 +40,14 @@ program
     }
 
     // 检测是否存在同名目录
-    if (fs.existsSync(name)) {
-      console.log(`${name} already exists. It will be overwritten.`);
+    if (fs.existsSync(projectName)) {
+      console.log(`${projectName} already exists. It will be overwritten.`);
       // 删除文件夹
-      fs.rmSync(name, { recursive: true });
+      fs.rmSync(projectName, { recursive: true });
     }
 
     const opt: IOpt = {
-      name,
+      projectName,
       author,
       gitinit: options.gitinit,
       default: options.default
@@ -57,27 +57,27 @@ program
   });
 
 function generatedir(opt: IOpt): void {
-  const { name, author, gitinit, default: isDefault } = opt;
+  const { projectName, author, gitinit, default: isDefault } = opt;
 
-  fs.mkdirSync(name);
-  fs.mkdirSync(`${name}/src`);
-  fs.mkdirSync(`${name}/test`);
+  fs.mkdirSync(projectName);
+  fs.mkdirSync(`${projectName}/src`);
+  fs.mkdirSync(`${projectName}/test`);
   // 生成package.json
-  const packageJson = generatePackagejson(name, author);
+  const packageJson = generatePackagejson(projectName, author);
   fs.writeFileSync(
-    `${name}/package.json`,
+    `${projectName}/package.json`,
     JSON.stringify(packageJson, null, 2)
   );
 
   if (gitinit) {
     console.log(`.git will be init`);
-    mkdirSync(`${name}/.gitignore`);
+    mkdirSync(`${projectName}/.gitignore`);
 
     // 在.gitignore中写入默认的忽略文件 当前是node_modules
-    fs.writeFileSync(`${name}/.gitignore`, `node_modules\n`);
+    fs.writeFileSync(`${projectName}/.gitignore`, `node_modules\n`);
 
     (async () => {
-      await run("cd", [name]);
+      await run("cd", [projectName]);
       await run("git", ["init"]);
       await run("git", ["add", "."]);
       await run("git", ["commit", "-m", "init"]);
@@ -97,7 +97,7 @@ program.parse(process.argv);
 export default program;
 
 interface IOpt {
-  name: string;
+  projectName: string;
   author: string;
   gitinit: boolean;
   default: boolean;

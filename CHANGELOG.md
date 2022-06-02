@@ -1,7 +1,7 @@
-# Change Log
+## 0.0.1 (2022-06-02)
 
-## 0.0.1 (2022-06-02) - Initial Release
+#### Committer: zhouhaoyu
 
-#### Committers: 1
+## 0.0.0 (2022-06-02) - Initial Release\
 
-- zhouhaoyu ([@zhouhaoyiu](https://github.com/zhouhaoyiu))
+#### Committer: zhouhaoyu ([@zhouhaoyiu](https://github.com/zhouhaoyiu))

@@ -2,7 +2,7 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 
-function getGitInfo(opt): string {
+function getGitInfo(opt: "name" | "email" | "author" | "config"): string {
   // 获得本地git中配置的用户名和邮箱
   const configPath = path.join(os.homedir(), ".gitconfig");
   const config = fs.existsSync(configPath)
@@ -12,13 +12,13 @@ function getGitInfo(opt): string {
   const email = config.match(/email = (.*)/)[1];
   const author = user && email ? `${user} <${email}>` : "";
   switch (opt) {
-    case "user":
+    case "name":
       return user;
     case "email":
       return email;
     case "author":
       return author;
-    default:
+    case "config":
       return config;
   }
 }
