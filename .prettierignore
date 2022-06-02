@@ -1,2 +1,3 @@
-# 忽略所以.d.ts文件
+node_modules
 shims.d.ts
+*.d.ts

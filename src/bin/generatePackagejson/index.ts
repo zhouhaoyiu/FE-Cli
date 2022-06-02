@@ -1,4 +1,4 @@
-function generatePackagejson(name: string, author = "") {
+function generatePackagejson(name: string, author = ""): Record<string, any> {
   const packagejson: IPackagejson = {
     name: name,
     version: "0.0.1",

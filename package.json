@@ -7,12 +7,13 @@
   "license": "MIT",
   "type": "commonjs",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development node env.mjs && tsc fe.ts -w --resolveJsonModule --esModuleInterop",
-    "prod": "cross-env NODE_ENV=production node env.mjs && tsc fe.ts -w --resolveJsonModule --esModuleInterop",
+    "dev": "cross-env NODE_ENV=development node env.mjs && tsc fe.ts -d -w --resolveJsonModule --esModuleInterop",
+    "prod": "cross-env NODE_ENV=production node env.mjs && tsc fe.ts -d -w --resolveJsonModule --esModuleInterop",
     "prod:test": "cross-env NODE_ENV=production node env.mjs && tsc fe.ts --resolveJsonModule --esModuleInterop",
-    "format": "prettier --write **/*.ts --ignore-path .gitignore",
+    "format": "prettier --write **/*.ts --ignore-path .prettierignore",
     "update": "node ./version.js",
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc fe.ts -d --resolveJsonModule --esModuleInterop && prettier --write **/*.ts --ignore-path .prettierignore"
   },
   "bin": {
     "fe": "fe.js"
