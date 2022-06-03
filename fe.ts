@@ -49,7 +49,9 @@ program
     baseOpts.author = author;
     baseOpts.gitinit = options.gitinit;
     baseOpts.default = options.default;
-    console.log(baseOpts);
+    if (DEV) {
+      console.log(baseOpts);
+    }
     generateDir(baseOpts);
   });
 
