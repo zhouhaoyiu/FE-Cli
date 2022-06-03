@@ -9,9 +9,12 @@ var commander_1 = require("commander");
 var generateDir_1 = __importDefault(require("./src/bin/generateDir"));
 var getGitInfo_1 = __importDefault(require("./src/bin/getGitInfo"));
 var package_json_1 = __importDefault(require("./package.json")); // @ts-ignore
+var DEV = false;
 // 获得.env文件中的NODE_ENV的值
-var environment = fs_1["default"].readFileSync(".env", "utf-8").match(/NODE_ENV=(.*)/)[1];
-var DEV = environment === "development";
+if (fs_1["default"].existsSync(".env")) {
+    var environment = fs_1["default"].readFileSync(".env", "utf-8").match(/NODE_ENV=(.*)/)[1];
+    DEV = environment === "development";
+}
 var program = new commander_1.Command();
 program.version(package_json_1["default"].version); // package.json 中的版本号
 /**

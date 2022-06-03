@@ -6,11 +6,12 @@ import generateDir from "./src/bin/generateDir";
 import { IOpt } from "./src/bin/generateDir/utils";
 import getGitInfo from "./src/bin/getGitInfo";
 import _package from "./package.json"; // @ts-ignore
-
+let DEV = false;
 // 获得.env文件中的NODE_ENV的值
-
-const environment = fs.readFileSync(".env", "utf-8").match(/NODE_ENV=(.*)/)![1];
-const DEV = environment === "development";
+if (fs.existsSync(".env")) {
+  const environment = fs.readFileSync(".env", "utf-8").match(/NODE_ENV=(.*)/)![1];
+  DEV = environment === "development";
+}
 
 const program = new Command();
 
