@@ -1,7 +1,4 @@
 #!/usr/bin/env node
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -38,9 +35,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-define("src/bin/generatePackagejson/index", ["require", "exports"], function (require, exports) {
+System.register("src/bin/generatePackagejson/index", [], function (exports_1, context_1) {
     "use strict";
-    exports.__esModule = true;
+    var __moduleName = context_1 && context_1.id;
     function generatePackagejson(name, author) {
         if (author === void 0) { author = ""; }
         var packagejson = {
@@ -58,14 +55,17 @@ define("src/bin/generatePackagejson/index", ["require", "exports"], function (re
         };
         return packagejson;
     }
-    exports["default"] = generatePackagejson;
+    return {
+        setters: [],
+        execute: function () {
+            exports_1("default", generatePackagejson);
+        }
+    };
 });
-define("src/bin/getGinInfo/index", ["require", "exports", "fs", "os", "path"], function (require, exports, fs_1, os_1, path_1) {
+System.register("src/bin/getGinInfo/index", ["fs", "os", "path"], function (exports_2, context_2) {
     "use strict";
-    exports.__esModule = true;
-    fs_1 = __importDefault(fs_1);
-    os_1 = __importDefault(os_1);
-    path_1 = __importDefault(path_1);
+    var fs_1, os_1, path_1;
+    var __moduleName = context_2 && context_2.id;
     function getGitInfo(opt) {
         // 获得本地git中配置的用户名和邮箱
         var configPath = path_1["default"].join(os_1["default"].homedir(), ".gitconfig");
@@ -90,82 +90,68 @@ define("src/bin/getGinInfo/index", ["require", "exports", "fs", "os", "path"], f
                 return config;
         }
     }
-    exports["default"] = getGitInfo;
+    return {
+        setters: [
+            function (fs_1_1) {
+                fs_1 = fs_1_1;
+            },
+            function (os_1_1) {
+                os_1 = os_1_1;
+            },
+            function (path_1_1) {
+                path_1 = path_1_1;
+            }
+        ],
+        execute: function () {
+            exports_2("default", getGitInfo);
+        }
+    };
 });
-define("src/index", ["require", "exports", "src/bin/generatePackagejson/index", "src/bin/getGinInfo/index"], function (require, exports, generatePackagejson_1, getGinInfo_1) {
+System.register("src/index", ["src/bin/generatePackagejson/index", "src/bin/getGinInfo/index"], function (exports_3, context_3) {
     "use strict";
-    exports.__esModule = true;
-    exports.getGitInfo = exports.generatePackagejson = void 0;
-    generatePackagejson_1 = __importDefault(generatePackagejson_1);
-    getGinInfo_1 = __importDefault(getGinInfo_1);
-    exports.generatePackagejson = generatePackagejson_1["default"];
-    exports.getGitInfo = getGinInfo_1["default"];
+    var generatePackagejson_1, getGinInfo_1;
+    var __moduleName = context_3 && context_3.id;
+    return {
+        setters: [
+            function (generatePackagejson_1_1) {
+                generatePackagejson_1 = generatePackagejson_1_1;
+            },
+            function (getGinInfo_1_1) {
+                getGinInfo_1 = getGinInfo_1_1;
+            }
+        ],
+        execute: function () {
+            exports_3("generatePackagejson", generatePackagejson_1["default"]);
+            exports_3("getGitInfo", getGinInfo_1["default"]);
+        }
+    };
 });
-define("package", [], {
-    "name": "fe-cli",
-    "version": "0.0.1",
-    "main": "index.js",
-    "repository": "https://github.com/FE-WROLD-TEAM/FE-Cli.git",
-    "author": "zhouhaoyu <67226385+zhouhaoyiu@users.noreply.github.com>",
-    "license": "MIT",
-    "type": "commonjs",
-    "scripts": {
-        "dev": "cross-env NODE_ENV=development node env.mjs && tsc fe.ts -d -w --resolveJsonModule --esModuleInterop --outFile index.js --module amd --moduleResolution node",
-        "prod": "cross-env NODE_ENV=production node env.mjs && tsc fe.ts -d -w --resolveJsonModule --esModuleInterop --outFile index.js --module amd --moduleResolution node",
-        "prod:test": "cross-env NODE_ENV=production node env.mjs && tsc fe.ts --resolveJsonModule --esModuleInterop --outFile index.js --module amd --moduleResolution node",
-        "format": "prettier --write **/*.ts --ignore-path .prettierignore",
-        "update": "node ./version.js",
-        "test": "jest",
-        "build": "cross-env NODE_ENV=production node env.mjs && tsc fe.ts -d --resolveJsonModule --esModuleInterop --outFile index.js --module amd --moduleResolution node && prettier --write **/*.ts --ignore-path .prettierignore ",
-        "prepare": "npx husky install && npx husky add .husky/pre-commit 'npm run lint-staged'",
-        "lint-staged": "lint-staged --allow-empty"
-    },
-    "bin": {
-        "fe": "fe.js"
-    },
-    "lint-staged": {
-        "*.ts": [
-            "prettier --write **/*.ts --ignore-path .prettierignore"
-        ]
-    },
-    "dependencies": {
-        "commander": "^9.3.0",
-        "copy-dir": "^1.3.0",
-        "dayjs": "^1.11.2",
-        "ejs": "^3.1.2",
-        "execa": "^1.0.0",
-        "slash": "^4.0.0"
-    },
-    "devDependencies": {
-        "@types/jest": "^28.1.0",
-        "@types/node": "^17.0.38",
-        "cross-env": "^7.0.3",
-        "husky": "^8.0.1",
-        "jest": "^28.1.0",
-        "lint-staged": "^13.0.0",
-        "prettier": "^2.6.2",
-        "ts-jest": "^28.0.3",
-        "typescript": "^4.7.2"
-    }
-});
-define("utils/run", ["require", "exports", "execa"], function (require, exports, execa_1) {
+System.register("utils/run", ["execa"], function (exports_4, context_4) {
     "use strict";
-    exports.__esModule = true;
-    exports.run = void 0;
-    execa_1 = __importDefault(execa_1);
+    var execa_1;
+    var __moduleName = context_4 && context_4.id;
     function run(command, args) {
         var _a;
         if (!args) {
             _a = command.split(/\s+/), command = _a[0], args = _a.slice(1);
         }
-        return (0, execa_1["default"])(command, args);
+        return execa_1["default"](command, args);
     }
-    exports.run = run;
+    exports_4("run", run);
+    return {
+        setters: [
+            function (execa_1_1) {
+                execa_1 = execa_1_1;
+            }
+        ],
+        execute: function () {
+        }
+    };
 });
-define("src/bin/generateDir/utils", ["require", "exports", "fs", "utils/run"], function (require, exports, fs_2, run_1) {
+System.register("src/bin/generateDir/utils", ["fs", "utils/run"], function (exports_5, context_5) {
     "use strict";
-    exports.__esModule = true;
-    exports.checkProjectNameIsExist = exports.initGit = void 0;
+    var fs_2, run_1;
+    var __moduleName = context_5 && context_5.id;
     /**
      * @deprecated 还没有完成
      * @param projectName 项目名称
@@ -173,22 +159,22 @@ define("src/bin/generateDir/utils", ["require", "exports", "fs", "utils/run"], f
     function initGit(projectName) {
         var _this = this;
         console.log(".git will be init");
-        (0, fs_2.mkdirSync)("".concat(projectName, "/.gitignore"));
+        fs_2.mkdirSync("".concat(projectName, "/.gitignore"));
         // 在.gitignore中写入默认的忽略文件 当前是node_modules
-        (0, fs_2.writeFileSync)("".concat(projectName, "/.gitignore"), "node_modules\n");
+        fs_2.writeFileSync("".concat(projectName, "/.gitignore"), "node_modules\n");
         (function () { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, (0, run_1.run)("cd", [projectName])];
+                    case 0: return [4 /*yield*/, run_1.run("cd", [projectName])];
                     case 1:
                         _a.sent();
-                        return [4 /*yield*/, (0, run_1.run)("git", ["init"])];
+                        return [4 /*yield*/, run_1.run("git", ["init"])];
                     case 2:
                         _a.sent();
-                        return [4 /*yield*/, (0, run_1.run)("git", ["add", "."])];
+                        return [4 /*yield*/, run_1.run("git", ["add", "."])];
                     case 3:
                         _a.sent();
-                        return [4 /*yield*/, (0, run_1.run)("git", ["commit", "-m", "init"])];
+                        return [4 /*yield*/, run_1.run("git", ["commit", "-m", "init"])];
                     case 4:
                         _a.sent();
                         return [2 /*return*/];
@@ -196,81 +182,126 @@ define("src/bin/generateDir/utils", ["require", "exports", "fs", "utils/run"], f
             });
         }); })();
     }
-    exports.initGit = initGit;
+    exports_5("initGit", initGit);
     /**
      * @zhouhaoyiu
      * @function 检查当前同名的项目是否存在
      * @param projectName 项目名称
      */
     function checkProjectNameIsExist(projectName) {
-        if ((0, fs_2.existsSync)(projectName)) {
+        if (fs_2.existsSync(projectName)) {
             console.log("".concat(projectName, " already exists. It will be overwritten."));
             // 删除文件夹
-            (0, fs_2.rmSync)(projectName, { recursive: true });
+            fs_2.rmSync(projectName, { recursive: true });
         }
     }
-    exports.checkProjectNameIsExist = checkProjectNameIsExist;
+    exports_5("checkProjectNameIsExist", checkProjectNameIsExist);
+    return {
+        setters: [
+            function (fs_2_1) {
+                fs_2 = fs_2_1;
+            },
+            function (run_1_1) {
+                run_1 = run_1_1;
+            }
+        ],
+        execute: function () {
+        }
+    };
 });
-define("src/bin/generateDir/index", ["require", "exports", "fs", "src/bin/generatePackagejson/index", "src/bin/generateDir/utils"], function (require, exports, fs_3, generatePackagejson_2, utils_1) {
+System.register("src/bin/generateDir/index", ["fs", "src/bin/generatePackagejson/index", "src/bin/generateDir/utils"], function (exports_6, context_6) {
     "use strict";
-    exports.__esModule = true;
-    generatePackagejson_2 = __importDefault(generatePackagejson_2);
+    var fs_3, generatePackagejson_2, utils_1;
+    var __moduleName = context_6 && context_6.id;
     function generateDir(opt) {
         var projectName = opt.projectName, author = opt.author, gitinit = opt.gitinit, isDefault = opt["default"];
-        (0, utils_1.checkProjectNameIsExist)(projectName);
-        (0, fs_3.mkdirSync)(projectName);
-        (0, fs_3.mkdirSync)("".concat(projectName, "/src"));
-        (0, fs_3.mkdirSync)("".concat(projectName, "/test"));
+        utils_1.checkProjectNameIsExist(projectName);
+        fs_3.mkdirSync(projectName);
+        fs_3.mkdirSync("".concat(projectName, "/src"));
+        fs_3.mkdirSync("".concat(projectName, "/test"));
         // 生成package.json
-        var packageJson = (0, generatePackagejson_2["default"])(projectName, author);
-        (0, fs_3.writeFileSync)("".concat(projectName, "/package.json"), JSON.stringify(packageJson, null, 2));
+        var packageJson = generatePackagejson_2["default"](projectName, author);
+        fs_3.writeFileSync("".concat(projectName, "/package.json"), JSON.stringify(packageJson, null, 2));
         /**
          * @zhouhaoyiu 2022-06-02 这个功能还没有完成
          */
         if (gitinit) {
-            (0, utils_1.initGit)(projectName);
+            utils_1.initGit(projectName);
         }
     }
-    exports["default"] = generateDir;
+    return {
+        setters: [
+            function (fs_3_1) {
+                fs_3 = fs_3_1;
+            },
+            function (generatePackagejson_2_1) {
+                generatePackagejson_2 = generatePackagejson_2_1;
+            },
+            function (utils_1_1) {
+                utils_1 = utils_1_1;
+            }
+        ],
+        execute: function () {
+            exports_6("default", generateDir);
+        }
+    };
 });
-define("fe", ["require", "exports", "commander", "fs", "src/index", "package", "src/bin/generateDir/index"], function (require, exports, commander_1, fs_4, src_1, package_json_1, generateDir_1) {
+System.register("fe", ["commander", "fs", "src/index", "src/bin/generateDir/index"], function (exports_7, context_7) {
     "use strict";
-    exports.__esModule = true;
-    package_json_1 = __importDefault(package_json_1);
-    generateDir_1 = __importDefault(generateDir_1);
-    // 获得.env文件中的NODE_ENV的值
-    var environment = (0, fs_4.readFileSync)(".env", "utf-8").match(/NODE_ENV=(.*)/)[1];
-    var DEV = environment === "development";
-    var program = new commander_1.Command();
-    program.version(package_json_1["default"].version); // package.json 中的版本号
-    /**
-     * @todo 可以改成可以自定义的author信息,-a配置 (已经完成) 或者像vue-cli那样通过问题获取
-     */
-    program
-        .command("init <name>")
-        // .description("Initialize a new project")
-        .option("-d, --default", "Skip prompts and use default preset", false)
-        .option("-gi, --gitinit", "Initialize git repo", false)
-        .option("-a, --author <author>", "Author username for git", false)
-        .action(function (projectName, options) {
-        var author = !options.author ? (0, src_1.getGitInfo)("author") : options.author;
-        console.log("Initializing a new project ".concat(projectName));
-        if (DEV) {
-            console.log(options);
-            console.log(author);
+    var commander_1, fs_4, src_1, generateDir_1, environment, DEV, program, _package;
+    var __moduleName = context_7 && context_7.id;
+    return {
+        setters: [
+            function (commander_1_1) {
+                commander_1 = commander_1_1;
+            },
+            function (fs_4_1) {
+                fs_4 = fs_4_1;
+            },
+            function (src_1_1) {
+                src_1 = src_1_1;
+            },
+            function (generateDir_1_1) {
+                generateDir_1 = generateDir_1_1;
+            }
+        ],
+        execute: function () {
+            // 获得.env文件中的NODE_ENV的值
+            environment = fs_4.readFileSync(".env", "utf-8").match(/NODE_ENV=(.*)/)[1];
+            DEV = environment === "development";
+            program = new commander_1.Command();
+            _package = require("../package.json");
+            program.version(_package.version); // package.json 中的版本号
+            /**
+             * @todo 可以改成可以自定义的author信息,-a配置 (已经完成) 或者像vue-cli那样通过问题获取
+             */
+            program
+                .command("init <name>")
+                // .description("Initialize a new project")
+                .option("-d, --default", "Skip prompts and use default preset", false)
+                .option("-gi, --gitinit", "Initialize git repo", false)
+                .option("-a, --author <author>", "Author username for git", false)
+                .action(function (projectName, options) {
+                var author = !options.author ? src_1.getGitInfo("author") : options.author;
+                console.log("Initializing a new project ".concat(projectName));
+                if (DEV) {
+                    console.log(options);
+                    console.log(author);
+                }
+                // TODO 增加默认模板信息
+                if (options["default"]) {
+                    console.log("This is a default option");
+                }
+                var opt = {
+                    projectName: projectName,
+                    author: author,
+                    gitinit: options.gitinit,
+                    "default": options["default"]
+                };
+                generateDir_1["default"](opt);
+            });
+            program.parse(process.argv);
+            exports_7("default", program);
         }
-        // TODO 增加默认模板信息
-        if (options["default"]) {
-            console.log("This is a default option");
-        }
-        var opt = {
-            projectName: projectName,
-            author: author,
-            gitinit: options.gitinit,
-            "default": options["default"]
-        };
-        (0, generateDir_1["default"])(opt);
-    });
-    program.parse(process.argv);
-    exports["default"] = program;
+    };
 });

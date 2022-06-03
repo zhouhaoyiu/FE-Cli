@@ -1,14 +1,13 @@
 #!/usr/bin/env node
 import { Command } from "commander";
 import { readFileSync } from "fs";
-// const ejs = require("ejs");
-// const copydir = require("copy-dir");
+// import chalk from "chalk";
 
 import { getGitInfo } from "./src";
-
-import _package from "./package.json";
 import generateDir from "./src/bin/generateDir";
 import { IOpt } from "./src/bin/generateDir/utils";
+
+const _package = require("../package.json");  // @ts-ignore
 
 // 获得.env文件中的NODE_ENV的值
 
@@ -17,10 +16,11 @@ const DEV: boolean = environment === "development";
 
 const program = new Command();
 
+
 program.version(_package.version); // package.json 中的版本号
 
 /**
- * @todo 可以改成可以自定义的author信息,-a配置 (已经完成) 或者像vue-cli那样通过问题获取
+ * @todoa add prompt and chalk
  */
 program
   .command("init <name>")

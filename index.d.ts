@@ -42,7 +42,7 @@ declare module "src/bin/generateDir/index" {
     export default generateDir;
 }
 declare module "fe" {
-    import commander from "commander";
-    const program: commander.Command;
+    import { Command } from "commander";
+    const program: Command;
     export default program;
 }
