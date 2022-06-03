@@ -3,9 +3,12 @@ import fs from "fs";
 
 import { Command } from "commander";
 import generateDir from "./src/bin/generateDir";
-import { IOpt } from "./src/bin/generateDir/utils";
+import { IInitOpt } from "./src/bin/generateDir/utils";
 import getGitInfo from "./src/bin/getGitInfo";
 import _package from "./package.json"; // @ts-ignore
+import { type } from "os";
+import { baseOpt } from "./type";
+
 let DEV = false;
 // 获得.env文件中的NODE_ENV的值
 if (fs.existsSync(".env")) {
@@ -14,7 +17,9 @@ if (fs.existsSync(".env")) {
 }
 
 const program = new Command();
-
+const baseOpts: baseOpt = {
+  typescript: false
+};
 program.version(_package.version); // package.json 中的版本号
 
 /**
@@ -41,16 +46,17 @@ program
       console.log(`This is a default option`);
     }
 
-    const opt: IOpt = {
+    const opt: IInitOpt = {
       projectName,
       author,
       gitinit: options.gitinit,
       default: options.default
     };
-
-    generateDir(opt);
+    // opt添加到baseOpt
+    Object.assign(baseOpts, opt);
   });
 
-program.parse(process.argv);
+generateDir(baseOpts);
 
+program.parse(process.argv);
 export default program;

@@ -7,10 +7,11 @@ var fs_1 = require("fs");
 var generatePackagejson_1 = __importDefault(require("../generatePackagejson"));
 var utils_1 = require("./utils");
 function generateDir(opt) {
-    var projectName = opt.projectName, author = opt.author, gitinit = opt.gitinit, isDefault = opt["default"];
+    var _a = opt.projectName, projectName = _a === void 0 ? "test" : _a, author = opt.author, gitinit = opt.gitinit, isDefault = opt["default"], typescript = opt.typescript;
     (0, utils_1.checkProjectNameIsExist)(projectName);
     (0, fs_1.mkdirSync)(projectName);
     (0, fs_1.mkdirSync)("".concat(projectName, "/src"));
+    (0, fs_1.writeFileSync)("".concat(projectName, "/src/main.").concat(typescript ? "ts" : "js"), "");
     (0, fs_1.mkdirSync)("".concat(projectName, "/test"));
     // 生成package.json
     var packageJson = (0, generatePackagejson_1["default"])(projectName, author);

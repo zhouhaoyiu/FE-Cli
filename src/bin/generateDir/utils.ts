@@ -33,11 +33,11 @@ function checkProjectNameIsExist(projectName: string): void {
   }
 }
 
-interface IOpt {
-  projectName: string;
-  author: string;
-  gitinit: boolean;
-  default: boolean;
+interface IInitOpt {
+  projectName?: string;
+  author?: string;
+  gitinit?: boolean;
+  default?: boolean;
 }
 
-export { initGit, IOpt, checkProjectNameIsExist };
+export { initGit, IInitOpt, checkProjectNameIsExist };

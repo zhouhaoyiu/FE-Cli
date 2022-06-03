@@ -1,14 +1,19 @@
 import { mkdirSync, writeFileSync } from "fs";
+import { baseOpt } from "../../../type";
 import generatePackagejson from "../generatePackagejson";
-import { checkProjectNameIsExist, initGit, IOpt } from "./utils";
+import { checkProjectNameIsExist, initGit } from "./utils";
 
-function generateDir(opt: IOpt): void {
-  const { projectName, author, gitinit, default: isDefault } = opt;
+function generateDir(opt: baseOpt): void {
+  const { projectName = "UnnamedProject", author, gitinit, default: isDefault, typescript } = opt;
 
   checkProjectNameIsExist(projectName);
 
   mkdirSync(projectName);
+  
   mkdirSync(`${projectName}/src`);
+  writeFileSync(`${projectName}/src/main.${typescript ? "ts" : "js"}`, "");
+
+  
   mkdirSync(`${projectName}/test`);
   // 生成package.json
   const packageJson = generatePackagejson(projectName, author);

@@ -1,3 +1,3 @@
-import { IOpt } from "./utils";
-declare function generateDir(opt: IOpt): void;
+import { IInitOpt } from "./utils";
+declare function generateDir(opt: IInitOpt): void;
 export default generateDir;
