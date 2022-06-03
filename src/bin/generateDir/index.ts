@@ -4,16 +4,18 @@ import generatePackagejson from "../generatePackagejson";
 import { checkProjectNameIsExist, initGit } from "./utils";
 
 function generateDir(opt: baseOpt): void {
-  const { projectName = "UnnamedProject", author, gitinit, default: isDefault, typescript } = opt;
+  let { projectName, author, gitinit, default: isDefault, typescript } = opt;
+  if (!projectName) {
+    projectName = "unnameProject";
+  }
 
   checkProjectNameIsExist(projectName);
 
   mkdirSync(projectName);
-  
+
   mkdirSync(`${projectName}/src`);
   writeFileSync(`${projectName}/src/main.${typescript ? "ts" : "js"}`, "");
 
-  
   mkdirSync(`${projectName}/test`);
   // 生成package.json
   const packageJson = generatePackagejson(projectName, author);

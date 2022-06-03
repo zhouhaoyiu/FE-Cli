@@ -1,9 +1,6 @@
 import { IInitOpt } from "./src/bin/generateDir/utils";
-
 interface IPrompt {
-  typescript: boolean;
+    typescript: boolean;
 }
-
-type baseOpt = IInitOpt & IPrompt;
-
+declare type baseOpt = IInitOpt & IPrompt;
 export { baseOpt };
