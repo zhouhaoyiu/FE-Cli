@@ -3,11 +3,10 @@ import fs from "fs";
 
 import { Command } from "commander";
 import generateDir from "./src/bin/generateDir";
-import { IInitOpt } from "./src/bin/generateDir/utils";
 import getGitInfo from "./src/bin/getGitInfo";
 import _package from "./package.json"; // @ts-ignore
-import { type } from "os";
 import { baseOpt } from "./type";
+import logWithFontColor from "./src/bin/chalk/fontColor";
 
 let DEV = false;
 // 获得.env文件中的NODE_ENV的值
@@ -17,7 +16,7 @@ if (fs.existsSync(".env")) {
 }
 
 const program = new Command();
-const baseOpts: baseOpt = {
+let baseOpts: baseOpt = {
   typescript: false
 };
 program.version(_package.version); // package.json 中的版本号
@@ -34,7 +33,7 @@ program
   .action((projectName: string, options: { author: string; default: boolean; gitinit: boolean }) => {
     const author = !options.author ? getGitInfo("author") : options.author;
     //输出黄色字体
-    console.log(`\x1b[33m%s\x1b[0m`, `Initializing ${projectName}`);
+    logWithFontColor("yellow", `Initializing Project ${projectName}`);
 
     if (DEV) {
       console.log(options);
@@ -45,18 +44,14 @@ program
     if (options.default) {
       console.log(`This is a default option`);
     }
-
-    const opt: IInitOpt = {
-      projectName,
-      author,
-      gitinit: options.gitinit,
-      default: options.default
-    };
     // opt添加到baseOpt
-    Object.assign(baseOpts, opt);
+    baseOpts.projectName = projectName;
+    baseOpts.author = author;
+    baseOpts.gitinit = options.gitinit;
+    baseOpts.default = options.default;
+    console.log(baseOpts);
+    generateDir(baseOpts);
   });
-
-generateDir(baseOpts);
 
 program.parse(process.argv);
 export default program;

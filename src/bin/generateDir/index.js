@@ -7,7 +7,10 @@ var fs_1 = require("fs");
 var generatePackagejson_1 = __importDefault(require("../generatePackagejson"));
 var utils_1 = require("./utils");
 function generateDir(opt) {
-    var _a = opt.projectName, projectName = _a === void 0 ? "test" : _a, author = opt.author, gitinit = opt.gitinit, isDefault = opt["default"], typescript = opt.typescript;
+    var projectName = opt.projectName, author = opt.author, gitinit = opt.gitinit, isDefault = opt["default"], typescript = opt.typescript;
+    if (!projectName) {
+        projectName = "unnameProject";
+    }
     (0, utils_1.checkProjectNameIsExist)(projectName);
     (0, fs_1.mkdirSync)(projectName);
     (0, fs_1.mkdirSync)("".concat(projectName, "/src"));
