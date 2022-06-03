@@ -1,6 +1,6 @@
-import { type } from 'os';
+import { type } from "os";
 // 不使用chalk
-function logWithFontColor(color:Color, message: any) {
+function logWithFontColor(color: Color, message: any) {
   switch (color) {
     case "red":
       console.log("\x1b[31m%s\x1b[0m", message);
