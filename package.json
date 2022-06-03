@@ -7,23 +7,23 @@
   "license": "MIT",
   "type": "commonjs",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development node env.mjs && tsc fe.ts -d -w --resolveJsonModule --esModuleInterop",
-    "prod": "cross-env NODE_ENV=production node env.mjs && tsc fe.ts -d -w --resolveJsonModule --esModuleInterop",
-    "prod:test": "cross-env NODE_ENV=production node env.mjs && tsc fe.ts --resolveJsonModule --esModuleInterop",
+    "prepare": "npx husky install && node ./scripts/husky_init.mjs",
+    "relink": "node ./scripts/relink.js",
+
+    "dev":        "cross-env NODE_ENV=development node ./scripts/env.mjs && tsc fe.ts -w --esModuleInterop --resolveJsonModule",
+    "prod":       "cross-env NODE_ENV=production  node ./scripts/env.mjs && tsc fe.ts -w --esModuleInterop --resolveJsonModule",
+    "prod:test":  "cross-env NODE_ENV=production  node ./scripts/env.mjs && tsc fe.ts -d --esModuleInterop --resolveJsonModule",
+
     "format": "prettier --write **/*.ts --ignore-path .prettierignore",
-    "update": "node ./version.js",
     "test": "jest",
-    "build": "tsc fe.ts -d --resolveJsonModule --esModuleInterop && prettier --write **/*.ts --ignore-path .prettierignore",
-    "prepare": "npx husky install && npx husky add .husky/pre-commit 'npm run lint-staged'",
-    "lint-staged": "lint-staged --allow-empty"
+    "build": "cross-env NODE_ENV=production node ./scripts/env.mjs && tsc fe.ts -d --esModuleInterop --resolveJsonModule && prettier --write **/*.ts --ignore-path .prettierignore ",
+    
+    "update:small": "node --experimental-modules ./scripts/version.js small",
+    "update:middle": "node --experimental-modules ./scripts/version.js middle",
+    "update:large": "node --experimental-modules ./scripts/version.js large"
   },
   "bin": {
     "fe": "fe.js"
-  },
-  "lint-staged": {
-    "*.ts": [
-      "prettier --write **/*.ts --ignore-path .prettierignore"
-    ]
   },
   "dependencies": {
     "commander": "^9.3.0",
@@ -34,12 +34,11 @@
     "slash": "^4.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^28.1.0",
+    "@types/jest": "^27.0.0",
     "@types/node": "^17.0.38",
     "cross-env": "^7.0.3",
     "husky": "^8.0.1",
     "jest": "^28.1.0",
-    "lint-staged": "^13.0.0",
     "prettier": "^2.6.2",
     "ts-jest": "^28.0.3",
     "typescript": "^4.7.2"
