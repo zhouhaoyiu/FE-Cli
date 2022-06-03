@@ -1,3 +1,4 @@
 node_modules
 shims.d.ts
 *.d.ts
+package.json

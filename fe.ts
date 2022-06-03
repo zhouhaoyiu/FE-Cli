@@ -1,21 +1,18 @@
 #!/usr/bin/env node
-import { Command } from "commander";
-import { readFileSync } from "fs";
-// import chalk from "chalk";
+import fs from "fs";
 
-import { getGitInfo } from "./src";
+import { Command } from "commander";
 import generateDir from "./src/bin/generateDir";
 import { IOpt } from "./src/bin/generateDir/utils";
-
-const _package = require("../package.json");  // @ts-ignore
+import getGitInfo from "./src/bin/getGitInfo";
+import _package from "./package.json"; // @ts-ignore
 
 // 获得.env文件中的NODE_ENV的值
 
-const environment: string = readFileSync(".env", "utf-8").match(/NODE_ENV=(.*)/)![1];
-const DEV: boolean = environment === "development";
+const environment = fs.readFileSync(".env", "utf-8").match(/NODE_ENV=(.*)/)![1];
+const DEV = environment === "development";
 
 const program = new Command();
-
 
 program.version(_package.version); // package.json 中的版本号
 
@@ -30,8 +27,8 @@ program
   .option("-a, --author <author>", "Author username for git", false)
   .action((projectName: string, options: { author: string; default: boolean; gitinit: boolean }) => {
     const author = !options.author ? getGitInfo("author") : options.author;
-
-    console.log(`Initializing a new project ${projectName}`);
+    //输出黄色字体
+    console.log(`\x1b[33m%s\x1b[0m`, `Initializing ${projectName}`);
 
     if (DEV) {
       console.log(options);
