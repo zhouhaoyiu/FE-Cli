@@ -39,6 +39,7 @@ exports.__esModule = true;
 exports.checkProjectNameIsExist = exports.initGit = void 0;
 var fs_1 = require("fs");
 var run_1 = require("../../../utils/run");
+var index_1 = require("../chalk/index");
 /**
  * @deprecated 还没有完成
  * @param projectName 项目名称
@@ -77,7 +78,7 @@ exports.initGit = initGit;
  */
 function checkProjectNameIsExist(projectName) {
     if ((0, fs_1.existsSync)(projectName)) {
-        console.log("".concat(projectName, " already exists. It will be overwritten."));
+        index_1.font.red("".concat(projectName, " is exist,It will be overwrite"));
         // 删除文件夹
         (0, fs_1.rmSync)(projectName, { recursive: true });
     }

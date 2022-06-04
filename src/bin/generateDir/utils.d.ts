@@ -10,9 +10,11 @@ declare function initGit(projectName: string): void;
  */
 declare function checkProjectNameIsExist(projectName: string): void;
 interface IInitOpt {
-    projectName?: string;
-    author?: string;
-    gitinit?: boolean;
-    default?: boolean;
+    projectName: string;
+    description: string;
+    author: string;
+    version: string;
+    license: string;
+    gitinit: boolean;
 }
 export { initGit, IInitOpt, checkProjectNameIsExist };

@@ -1,17 +1,16 @@
 "use strict";
 exports.__esModule = true;
-function generatePackagejson(name, author) {
-    if (author === void 0) { author = ""; }
+function generatePackagejson(projectName, author, description, version, license) {
     var packagejson = {
-        name: name,
-        version: "0.0.1",
-        description: "",
+        name: projectName,
         main: "index.js",
         author: author,
+        description: description,
+        version: version,
+        license: license,
         scripts: {
             test: 'echo "Error: no test specified" && exit 1'
         },
-        keywords: [],
         dependencies: {},
         devDependencies: {}
     };

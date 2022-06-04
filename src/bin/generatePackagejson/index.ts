@@ -1,14 +1,14 @@
-function generatePackagejson(name: string, author = ""): Record<string, any> {
+function generatePackagejson(projectName: string, author: string, description: string, version: string, license: string): Record<string, any> {
   const packagejson: IPackagejson = {
-    name: name,
-    version: "0.0.1",
-    description: "",
+    name: projectName,
     main: "index.js",
     author: author,
+    description,
+    version,
+    license,
     scripts: {
       test: 'echo "Error: no test specified" && exit 1'
     },
-    keywords: [],
     dependencies: {},
     devDependencies: {}
   };
@@ -16,13 +16,13 @@ function generatePackagejson(name: string, author = ""): Record<string, any> {
 }
 
 interface IPackagejson {
+  description: string;
   name: string;
   version: string;
-  description: string;
   main: string;
   scripts: Record<string, string>;
-  author?: string;
-  keywords: string[];
+  author: string;
+  license: string;
   dependencies?: Record<string, string>;
   devDependencies?: Record<string, string>;
 }

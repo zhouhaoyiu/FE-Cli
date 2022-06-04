@@ -1,10 +1,14 @@
 import { mkdirSync, writeFileSync } from "fs";
 import { baseOpt } from "../../../type";
+import { font } from "../chalk/index";
 import generatePackagejson from "../generatePackagejson";
 import { checkProjectNameIsExist, initGit } from "./utils";
 
 function generateDir(opt: baseOpt): void {
-  let { projectName, author, gitinit, default: isDefault, typescript } = opt;
+  let { projectName, description, author, version, license, gitinit, typescript } = opt;
+
+  font.yellow(`Initializing Project ${projectName}`);
+
   if (!projectName) {
     projectName = "unnameProject";
   }
@@ -18,7 +22,7 @@ function generateDir(opt: baseOpt): void {
 
   mkdirSync(`${projectName}/test`);
   // 生成package.json
-  const packageJson = generatePackagejson(projectName, author);
+  const packageJson = generatePackagejson(projectName, author, description, version, license);
   writeFileSync(`${projectName}/package.json`, JSON.stringify(packageJson, null, 2));
 
   /**
@@ -28,6 +32,8 @@ function generateDir(opt: baseOpt): void {
   if (gitinit) {
     initGit(projectName);
   }
+
+  font.green(`${projectName} is success created`);
 }
 
 export default generateDir;

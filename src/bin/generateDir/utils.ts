@@ -1,5 +1,6 @@
 import { existsSync, mkdirSync, PathLike, rmSync, writeFileSync } from "fs";
 import { run } from "../../../utils/run";
+import { font } from "../chalk/index";
 
 /**
  * @deprecated 还没有完成
@@ -27,17 +28,19 @@ function initGit(projectName: string): void {
  */
 function checkProjectNameIsExist(projectName: string): void {
   if (existsSync(projectName)) {
-    console.log(`${projectName} already exists. It will be overwritten.`);
+    font.red(`${projectName} is exist,It will be overwrite`);
     // 删除文件夹
     rmSync(projectName, { recursive: true });
   }
 }
 
 interface IInitOpt {
-  projectName?: string;
-  author?: string;
-  gitinit?: boolean;
-  default?: boolean;
+  projectName: string;
+  description: string;
+  author: string;
+  version: string;
+  license: string;
+  gitinit: boolean;
 }
 
 export { initGit, IInitOpt, checkProjectNameIsExist };

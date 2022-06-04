@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-// 不使用chalk
+var supportColor = ["red", "green", "yellow", "blue", "magenta", "cyan", "white"];
 function logWithFontColor(color, message) {
     switch (color) {
         case "red":

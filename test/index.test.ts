@@ -15,7 +15,7 @@ describe("index", () => {
       // 执行 npm link
       await execa("npm", ["link"]);
       // 执行 fe init testDir
-      await execa("fe", ["init", testDir]);
+      await execa("fe", ["init", testDir, "-d"]);
 
       // 判断文件夹是否存在
       expect(fs.existsSync(testDir)).toBe(true);

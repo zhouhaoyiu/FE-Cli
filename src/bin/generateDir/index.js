@@ -4,10 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 var fs_1 = require("fs");
+var index_1 = require("../chalk/index");
 var generatePackagejson_1 = __importDefault(require("../generatePackagejson"));
 var utils_1 = require("./utils");
 function generateDir(opt) {
-    var projectName = opt.projectName, author = opt.author, gitinit = opt.gitinit, isDefault = opt["default"], typescript = opt.typescript;
+    var projectName = opt.projectName, description = opt.description, author = opt.author, version = opt.version, license = opt.license, gitinit = opt.gitinit, typescript = opt.typescript;
+    index_1.font.yellow("Initializing Project ".concat(projectName));
     if (!projectName) {
         projectName = "unnameProject";
     }
@@ -17,7 +19,7 @@ function generateDir(opt) {
     (0, fs_1.writeFileSync)("".concat(projectName, "/src/main.").concat(typescript ? "ts" : "js"), "");
     (0, fs_1.mkdirSync)("".concat(projectName, "/test"));
     // 生成package.json
-    var packageJson = (0, generatePackagejson_1["default"])(projectName, author);
+    var packageJson = (0, generatePackagejson_1["default"])(projectName, author, description, version, license);
     (0, fs_1.writeFileSync)("".concat(projectName, "/package.json"), JSON.stringify(packageJson, null, 2));
     /**
      * @zhouhaoyiu 2022-06-02 这个功能还没有完成
@@ -25,5 +27,6 @@ function generateDir(opt) {
     if (gitinit) {
         (0, utils_1.initGit)(projectName);
     }
+    index_1.font.green("".concat(projectName, " is success created"));
 }
 exports["default"] = generateDir;
