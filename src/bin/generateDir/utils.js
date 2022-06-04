@@ -35,11 +35,64 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
-exports.checkProjectNameIsExist = exports.initGit = void 0;
+exports.checkProjectNameIsExist = exports.initGit = exports.init = void 0;
+var inquirer_1 = __importDefault(require("inquirer"));
 var fs_1 = require("fs");
 var run_1 = require("../../../utils/run");
 var index_1 = require("../chalk/index");
+var index_2 = __importDefault(require("../generatePackagejson/index"));
+function init(_a) {
+    var projectName = _a.projectName, description = _a.description, author = _a.author, version = _a.version, license = _a.license, gitinit = _a.gitinit, typescript = _a.typescript, eslint = _a.eslint;
+    try {
+        initRoot(projectName);
+        initSrc(projectName, typescript);
+        initTest(projectName);
+        initPackageJson({ projectName: projectName, author: author, typescript: typescript, eslint: eslint, description: description, version: version, license: license });
+        initLicense(projectName, license);
+        initTsconfig(projectName, typescript);
+        return "init success";
+    }
+    catch (e) {
+        return String(e);
+    }
+}
+exports.init = init;
+function initRoot(projectName) {
+    (0, fs_1.mkdirSync)(projectName);
+}
+function initSrc(projectName, typescript) {
+    (0, fs_1.mkdirSync)("".concat(projectName, "/src"));
+    (0, fs_1.writeFileSync)("".concat(projectName, "/src/index.").concat(typescript ? "ts" : "js"), "");
+    // 向生成的index文件中写入 console.log("hello world");
+    if (typescript) {
+        (0, fs_1.writeFileSync)("".concat(projectName, "/src/index.ts"), "console.log('hello world');");
+    }
+    else {
+        (0, fs_1.writeFileSync)("".concat(projectName, "/src/index.js"), "console.log('hello world');");
+    }
+}
+function initTest(projectName) {
+    (0, fs_1.mkdirSync)("".concat(projectName, "/test"));
+}
+function initPackageJson(_a) {
+    var projectName = _a.projectName, author = _a.author, typescript = _a.typescript, eslint = _a.eslint, description = _a.description, version = _a.version, license = _a.license;
+    var packageJson = (0, index_2["default"])({ projectName: projectName, author: author, typescript: typescript, eslint: eslint, description: description, version: version, license: license });
+    (0, fs_1.writeFileSync)("".concat(projectName, "/package.json"), JSON.stringify(packageJson, null, 2));
+}
+function initLicense(projectName, license) {
+    if (license.length) {
+        (0, fs_1.writeFileSync)("".concat(projectName, "/LICENSE"), "");
+    }
+}
+function initTsconfig(projectName, typescript) {
+    if (typescript) {
+        (0, fs_1.writeFileSync)("".concat(projectName, "/tsconfig.json"), "{}");
+    }
+}
 /**
  * @deprecated 还没有完成
  * @param projectName 项目名称
@@ -77,10 +130,36 @@ exports.initGit = initGit;
  * @param projectName 项目名称
  */
 function checkProjectNameIsExist(projectName) {
-    if ((0, fs_1.existsSync)(projectName)) {
-        index_1.font.red("".concat(projectName, " is exist,It will be overwrite"));
-        // 删除文件夹
-        (0, fs_1.rmSync)(projectName, { recursive: true });
-    }
+    return __awaiter(this, void 0, void 0, function () {
+        var overwrite;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    if (!(0, fs_1.existsSync)(projectName)) return [3 /*break*/, 2];
+                    return [4 /*yield*/, inquirer_1["default"].prompt([
+                            {
+                                type: "confirm",
+                                name: "overwrite",
+                                message: "".concat(projectName, " is exist, do you want to overwrite it?"),
+                                "default": true
+                            }
+                        ])];
+                case 1:
+                    overwrite = _a.sent();
+                    if (overwrite.overwrite) {
+                        index_1.font.red("".concat(projectName, " is exist,It will be overwrite"));
+                        // 删除文件夹
+                        (0, fs_1.rmSync)(projectName, { recursive: true });
+                    }
+                    else {
+                        // 直接退出程序
+                        index_1.font.red("".concat(projectName, " is exist,process exit"));
+                        process.exit(0);
+                    }
+                    _a.label = 2;
+                case 2: return [2 /*return*/];
+            }
+        });
+    });
 }
 exports.checkProjectNameIsExist = checkProjectNameIsExist;
