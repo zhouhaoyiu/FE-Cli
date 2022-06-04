@@ -1,5 +1,6 @@
-import { type } from "os";
-// 不使用chalk
+const supportColor: Color[] = ["red", "green", "yellow", "blue", "magenta", "cyan", "white"];
+type Color = "red" | "green" | "yellow" | "blue" | "magenta" | "cyan" | "white";
+
 function logWithFontColor(color: Color, message: any) {
   switch (color) {
     case "red":
@@ -29,5 +30,3 @@ function logWithFontColor(color: Color, message: any) {
 }
 
 export default logWithFontColor;
-
-type Color = "red" | "green" | "yellow" | "blue" | "magenta" | "cyan" | "white";

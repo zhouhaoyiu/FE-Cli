@@ -1,30 +1,41 @@
-function generatePackagejson(name: string, author = ""): Record<string, any> {
-  const packagejson: IPackagejson = {
-    name: name,
-    version: "0.0.1",
-    description: "",
-    main: "index.js",
+function generatePackagejson({ projectName, author, description, version, license, typescript, eslint }: IPackageParams): Record<string, any> {
+  let packagejson: IPackagejson = {
+    name: projectName,
+    main: typescript ? "src/main.ts" : "src/main.js",
     author: author,
+    description,
+    version,
+    license,
     scripts: {
       test: 'echo "Error: no test specified" && exit 1'
     },
-    keywords: [],
     dependencies: {},
     devDependencies: {}
   };
+  if (typescript) {
+    packagejson.devDependencies["typescript"] = "4.7.2";
+  }
   return packagejson;
 }
-
+interface IPackageParams {
+  projectName: string;
+  author: string;
+  description: string;
+  version: string;
+  license: string;
+  typescript: boolean;
+  eslint: boolean;
+}
 interface IPackagejson {
+  description: string;
   name: string;
   version: string;
-  description: string;
   main: string;
   scripts: Record<string, string>;
-  author?: string;
-  keywords: string[];
-  dependencies?: Record<string, string>;
-  devDependencies?: Record<string, string>;
+  author: string;
+  license: string;
+  dependencies: Record<string, string>;
+  devDependencies: Record<string, string>;
 }
 
 export default generatePackagejson;
