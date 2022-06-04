@@ -9,7 +9,7 @@ import _package from "./package.json"; // @ts-ignore
 import { baseOpt } from "./type";
 import { font } from "./src/bin/chalk/index";
 import { IInitOpt } from "./src/bin/generateDir/utils";
-// import { font } from "./src/bin/chalk";
+import { projectInfo, dependenciesInfo } from "./utils/promptInfo";
 
 let DEV = false;
 // 获得.env文件中的NODE_ENV的值
@@ -19,89 +19,6 @@ if (fs.existsSync(".env")) {
 }
 
 const program = new Command();
-
-const projectInfo = (projectName: string, author: string) => {
-  return [
-    {
-      type: "input",
-      name: "projectName",
-      message: "Project name",
-      default: projectName
-    },
-    {
-      type: "input",
-      name: "description",
-      message: "Project description",
-      default: "''"
-    },
-    {
-      type: "input",
-      name: "author",
-      message: "Author",
-      default: author
-    },
-    {
-      type: "input",
-      name: "version",
-      message: "Version",
-      default: "1.0.0"
-    },
-    {
-      type: "list",
-      name: "license",
-      message: "License",
-      choices: Lisence
-    }
-  ];
-};
-const Lisence = [
-  {
-    name: "MIT",
-    value: "MIT"
-  },
-  {
-    name: "Apache",
-    value: "Apache"
-  },
-  {
-    name: "GPL",
-    value: "GPL"
-  },
-  {
-    name: "BSD",
-    value: "BSD"
-  },
-  {
-    name: "ISC",
-    value: "ISC"
-  },
-  {
-    name: "skip",
-    value: ""
-  }
-];
-
-const dependenciesInfo = ({ typescript, eslint }: { typescript: boolean; eslint: boolean }) => {
-  return [
-    {
-      type: "checkbox",
-      name: "dependencies",
-      message: "Which dependencies do you want to add?",
-      choices: [
-        {
-          name: "TypeScript",
-          value: "typescript",
-          checked: typescript
-        },
-        {
-          name: "ESLint",
-          value: "eslint",
-          checked: eslint
-        }
-      ]
-    }
-  ];
-};
 
 let baseOpts: baseOpt = {
   projectName: "",
@@ -114,6 +31,7 @@ let baseOpts: baseOpt = {
   typescript: false,
   eslint: false
 };
+
 program.version(_package.version); // package.json 中的版本号
 
 /**
@@ -126,14 +44,14 @@ program
   .option("-gi, --gitinit", "Initialize git repo", false)
   .option("-a, --author <author>", "Author username for git", false)
   .action(async (projectName: string, options: { author: string; default: boolean; gitinit: boolean }) => {
-    const author = (options.author ? options.author : getGitInfo("author")) || "";
+    const author: string = (options.author ? options.author : getGitInfo("author")) || "";
 
     if (options.default) {
       font.blue("You are using the default preset.");
       baseOpts.author = author;
       baseOpts.projectName = projectName;
       baseOpts.gitinit = options.gitinit;
-      generateDir(baseOpts);
+      await generateDir(baseOpts);
       return;
     }
 
@@ -155,7 +73,7 @@ program
     baseOpts.typescript = dependenciesArr.includes("typescript");
     baseOpts.eslint = dependenciesArr.includes("eslint");
 
-    generateDir(baseOpts);
+    await generateDir(baseOpts);
   });
 
 program.parse(process.argv);

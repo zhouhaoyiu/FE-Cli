@@ -24,7 +24,7 @@ describe("index", () => {
       // 判断src是否存在
       expect(fs.existsSync(`${testDir}/src`)).toBe(true);
       // 判断src/main.js是否存在
-      expect(fs.existsSync(`${testDir}/src/main.js`)).toBe(true);
+      expect(fs.existsSync(`${testDir}/src/index.js`)).toBe(true);
       // 判断test是否存在
       expect(fs.existsSync(`${testDir}/test`)).toBe(true);
     },

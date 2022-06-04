@@ -47,7 +47,7 @@ var generateDir_1 = __importDefault(require("./src/bin/generateDir"));
 var getGitInfo_1 = __importDefault(require("./src/bin/getGitInfo"));
 var package_json_1 = __importDefault(require("./package.json")); // @ts-ignore
 var index_1 = require("./src/bin/chalk/index");
-// import { font } from "./src/bin/chalk";
+var promptInfo_1 = require("./utils/promptInfo");
 var DEV = false;
 // 获得.env文件中的NODE_ENV的值
 if (fs_1["default"].existsSync(".env")) {
@@ -55,88 +55,6 @@ if (fs_1["default"].existsSync(".env")) {
     DEV = environment === "development";
 }
 var program = new commander_1.Command();
-var projectInfo = function (projectName, author) {
-    return [
-        {
-            type: "input",
-            name: "projectName",
-            message: "Project name",
-            "default": projectName
-        },
-        {
-            type: "input",
-            name: "description",
-            message: "Project description",
-            "default": "''"
-        },
-        {
-            type: "input",
-            name: "author",
-            message: "Author",
-            "default": author
-        },
-        {
-            type: "input",
-            name: "version",
-            message: "Version",
-            "default": "1.0.0"
-        },
-        {
-            type: "list",
-            name: "license",
-            message: "License",
-            choices: Lisence
-        }
-    ];
-};
-var Lisence = [
-    {
-        name: "MIT",
-        value: "MIT"
-    },
-    {
-        name: "Apache",
-        value: "Apache"
-    },
-    {
-        name: "GPL",
-        value: "GPL"
-    },
-    {
-        name: "BSD",
-        value: "BSD"
-    },
-    {
-        name: "ISC",
-        value: "ISC"
-    },
-    {
-        name: "skip",
-        value: ""
-    }
-];
-var dependenciesInfo = function (_a) {
-    var typescript = _a.typescript, eslint = _a.eslint;
-    return [
-        {
-            type: "checkbox",
-            name: "dependencies",
-            message: "Which dependencies do you want to add?",
-            choices: [
-                {
-                    name: "TypeScript",
-                    value: "typescript",
-                    checked: typescript
-                },
-                {
-                    name: "ESLint",
-                    value: "eslint",
-                    checked: eslint
-                }
-            ]
-        }
-    ];
-};
 var baseOpts = {
     projectName: "",
     description: "",
@@ -163,16 +81,17 @@ program
         switch (_b.label) {
             case 0:
                 author = (options.author ? options.author : (0, getGitInfo_1["default"])("author")) || "";
-                if (options["default"]) {
-                    index_1.font.blue("You are using the default preset.");
-                    baseOpts.author = author;
-                    baseOpts.projectName = projectName;
-                    baseOpts.gitinit = options.gitinit;
-                    (0, generateDir_1["default"])(baseOpts);
-                    return [2 /*return*/];
-                }
-                return [4 /*yield*/, inquirer_1["default"].prompt(projectInfo(projectName, author))];
+                if (!options["default"]) return [3 /*break*/, 2];
+                index_1.font.blue("You are using the default preset.");
+                baseOpts.author = author;
+                baseOpts.projectName = projectName;
+                baseOpts.gitinit = options.gitinit;
+                return [4 /*yield*/, (0, generateDir_1["default"])(baseOpts)];
             case 1:
+                _b.sent();
+                return [2 /*return*/];
+            case 2: return [4 /*yield*/, inquirer_1["default"].prompt((0, promptInfo_1.projectInfo)(projectName, author))];
+            case 3:
                 info = _b.sent();
                 // console.log(info);
                 for (_i = 0, _a = Object.keys(info); _i < _a.length; _i++) {
@@ -180,16 +99,18 @@ program
                     // @ts-ignore
                     baseOpts[key] = info[key];
                 }
-                return [4 /*yield*/, inquirer_1["default"].prompt(dependenciesInfo({
+                return [4 /*yield*/, inquirer_1["default"].prompt((0, promptInfo_1.dependenciesInfo)({
                         typescript: baseOpts.typescript,
                         eslint: baseOpts.eslint
                     }))];
-            case 2:
+            case 4:
                 dependencies = _b.sent();
                 dependenciesArr = dependencies.dependencies;
                 baseOpts.typescript = dependenciesArr.includes("typescript");
                 baseOpts.eslint = dependenciesArr.includes("eslint");
-                (0, generateDir_1["default"])(baseOpts);
+                return [4 /*yield*/, (0, generateDir_1["default"])(baseOpts)];
+            case 5:
+                _b.sent();
                 return [2 /*return*/];
         }
     });
