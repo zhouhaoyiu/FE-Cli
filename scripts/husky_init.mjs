@@ -7,7 +7,7 @@ const info = `#!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
 npm run build
-`;
+git add .`;
 
 //检查是否有.husky/pre-commit文件
 if(!fs.existsSync('./.husky/pre-commit')){
