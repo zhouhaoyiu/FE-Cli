@@ -1,9 +1,10 @@
 "use strict";
 exports.__esModule = true;
-function generatePackagejson(projectName, author, description, version, license) {
+function generatePackagejson(_a) {
+    var projectName = _a.projectName, author = _a.author, description = _a.description, version = _a.version, license = _a.license, typescript = _a.typescript, eslint = _a.eslint;
     var packagejson = {
         name: projectName,
-        main: "index.js",
+        main: typescript ? "src/main.ts" : "src/main.js",
         author: author,
         description: description,
         version: version,
@@ -14,6 +15,9 @@ function generatePackagejson(projectName, author, description, version, license)
         dependencies: {},
         devDependencies: {}
     };
+    if (typescript) {
+        packagejson.devDependencies["typescript"] = "4.7.2";
+    }
     return packagejson;
 }
 exports["default"] = generatePackagejson;

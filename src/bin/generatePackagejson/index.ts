@@ -1,7 +1,7 @@
-function generatePackagejson(projectName: string, author: string, description: string, version: string, license: string): Record<string, any> {
-  const packagejson: IPackagejson = {
+function generatePackagejson({ projectName, author, description, version, license, typescript, eslint }: IPackageParams): Record<string, any> {
+  let packagejson: IPackagejson = {
     name: projectName,
-    main: "index.js",
+    main: typescript ? "src/main.ts" : "src/main.js",
     author: author,
     description,
     version,
@@ -12,9 +12,20 @@ function generatePackagejson(projectName: string, author: string, description: s
     dependencies: {},
     devDependencies: {}
   };
+  if (typescript) {
+    packagejson.devDependencies["typescript"] = "4.7.2";
+  }
   return packagejson;
 }
-
+interface IPackageParams {
+  projectName: string;
+  author: string;
+  description: string;
+  version: string;
+  license: string;
+  typescript: boolean;
+  eslint: boolean;
+}
 interface IPackagejson {
   description: string;
   name: string;
@@ -23,8 +34,8 @@ interface IPackagejson {
   scripts: Record<string, string>;
   author: string;
   license: string;
-  dependencies?: Record<string, string>;
-  devDependencies?: Record<string, string>;
+  dependencies: Record<string, string>;
+  devDependencies: Record<string, string>;
 }
 
 export default generatePackagejson;

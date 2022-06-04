@@ -23,6 +23,8 @@ describe("index", () => {
       expect(fs.existsSync(`${testDir}/package.json`)).toBe(true);
       // 判断src是否存在
       expect(fs.existsSync(`${testDir}/src`)).toBe(true);
+      // 判断src/main.js是否存在
+      expect(fs.existsSync(`${testDir}/src/main.js`)).toBe(true);
       // 判断test是否存在
       expect(fs.existsSync(`${testDir}/test`)).toBe(true);
     },

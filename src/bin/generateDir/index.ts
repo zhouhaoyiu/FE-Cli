@@ -5,7 +5,7 @@ import generatePackagejson from "../generatePackagejson";
 import { checkProjectNameIsExist, initGit } from "./utils";
 
 function generateDir(opt: baseOpt): void {
-  let { projectName, description, author, version, license, gitinit, typescript } = opt;
+  let { projectName, description, author, version, license, gitinit, typescript, eslint } = opt;
 
   font.yellow(`Initializing Project ${projectName}`);
 
@@ -22,8 +22,12 @@ function generateDir(opt: baseOpt): void {
 
   mkdirSync(`${projectName}/test`);
   // 生成package.json
-  const packageJson = generatePackagejson(projectName, author, description, version, license);
+  const packageJson = generatePackagejson({ projectName, author, typescript, eslint, description, version, license });
   writeFileSync(`${projectName}/package.json`, JSON.stringify(packageJson, null, 2));
+
+  if (typescript) {
+    writeFileSync(`${projectName}/tsconfig.json`, `{}`);
+  }
 
   /**
    * @zhouhaoyiu 2022-06-02 这个功能还没有完成
