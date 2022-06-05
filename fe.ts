@@ -22,9 +22,6 @@ const program = new Command();
 
 program.version(_package.version); // package.json 中的版本号
 
-/**
- * @todoa add prompt and chalk
- */
 program
   .command("init <name>")
   // .description("Initialize a new project")
@@ -44,7 +41,6 @@ program
     }
 
     const info: IInitOpt = await inquirer.prompt(projectInfo(projectName, author));
-    // console.log(info);
     for (const key of Object.keys(info)) {
       // @ts-ignore
       baseOpts[key] = info[key];
@@ -60,6 +56,8 @@ program
     const dependenciesArr = dependencies.dependencies as string[];
     baseOpts.typescript = dependenciesArr.includes("typescript");
     baseOpts.eslint = dependenciesArr.includes("eslint");
+
+    DEV && console.log(baseOpts);
 
     await generateDir(baseOpts);
   });

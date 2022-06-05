@@ -57,9 +57,6 @@ if (fs_1["default"].existsSync(".env")) {
 }
 var program = new commander_1.Command();
 program.version(package_json_1["default"].version); // package.json 中的版本号
-/**
- * @todoa add prompt and chalk
- */
 program
     .command("init <name>")
     // .description("Initialize a new project")
@@ -84,7 +81,6 @@ program
             case 2: return [4 /*yield*/, inquirer_1["default"].prompt((0, promptInfo_1.projectInfo)(projectName, author))];
             case 3:
                 info = _b.sent();
-                // console.log(info);
                 for (_i = 0, _a = Object.keys(info); _i < _a.length; _i++) {
                     key = _a[_i];
                     // @ts-ignore
@@ -99,6 +95,7 @@ program
                 dependenciesArr = dependencies.dependencies;
                 preset_1["default"].typescript = dependenciesArr.includes("typescript");
                 preset_1["default"].eslint = dependenciesArr.includes("eslint");
+                DEV && console.log(preset_1["default"]);
                 return [4 /*yield*/, (0, generateDir_1["default"])(preset_1["default"])];
             case 5:
                 _b.sent();
