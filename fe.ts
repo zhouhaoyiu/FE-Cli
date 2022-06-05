@@ -5,8 +5,8 @@ import inquirer from "inquirer";
 
 import generateDir from "./src/bin/generateDir";
 import getGitInfo from "./src/bin/getGitInfo";
-import _package from "./package.json"; // @ts-ignore
-import { baseOpt } from "./type";
+import _package from "./package.json";
+import baseOpts from "./utils/preset";
 import { font } from "./src/bin/chalk/index";
 import { IInitOpt } from "./src/bin/generateDir/utils";
 import { projectInfo, dependenciesInfo } from "./utils/promptInfo";
@@ -20,23 +20,8 @@ if (fs.existsSync(".env")) {
 
 const program = new Command();
 
-let baseOpts: baseOpt = {
-  projectName: "",
-  description: "",
-  author: "",
-  version: "",
-  license: "",
-  gitinit: false,
-
-  typescript: false,
-  eslint: false
-};
-
 program.version(_package.version); // package.json 中的版本号
 
-/**
- * @todoa add prompt and chalk
- */
 program
   .command("init <name>")
   // .description("Initialize a new project")
@@ -56,7 +41,6 @@ program
     }
 
     const info: IInitOpt = await inquirer.prompt(projectInfo(projectName, author));
-    // console.log(info);
     for (const key of Object.keys(info)) {
       // @ts-ignore
       baseOpts[key] = info[key];
@@ -72,6 +56,8 @@ program
     const dependenciesArr = dependencies.dependencies as string[];
     baseOpts.typescript = dependenciesArr.includes("typescript");
     baseOpts.eslint = dependenciesArr.includes("eslint");
+
+    DEV && console.log(baseOpts);
 
     await generateDir(baseOpts);
   });

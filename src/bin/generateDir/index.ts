@@ -1,25 +1,23 @@
 import { baseOpt } from "../../../type";
 import { font } from "../chalk/index";
-import { checkProjectNameIsExist, init } from "./utils";
+import { checkProjectNameIsExistAndAskOverwrite, init } from "./utils";
 
 async function generateDir(opt: baseOpt): Promise<void> {
-  let { projectName, description, author, version, license, gitinit, typescript, eslint } = opt;
-
-  font.yellow(`Initializing Project ${projectName}`);
-
-  if (!projectName) {
-    projectName = "unnameProject";
+  if (!opt.projectName) {
+    opt.projectName = "unnameProject";
   }
 
-  await checkProjectNameIsExist(projectName);
+  font.yellow(`Initializing Project ${opt.projectName}`);
 
-  init({ projectName, description, author, version, license, gitinit, typescript, eslint });
+  const res = await checkProjectNameIsExistAndAskOverwrite(opt.projectName);
+  if (!res) {
+    opt.projectName += "_" + Math.random().toString(36).substring(2, 5);
+    font.green(`Project ${opt.projectName} already exists, use ${opt.projectName}_${Math.random().toString(36).substring(2, 5)} instead`);
+  }
 
-  // if (gitinit) {
-  //   initGit(projectName);
-  // }
+  init(opt);
 
-  font.green(`${projectName} is success created`);
+  font.green(`${opt.projectName} is success created`);
 }
 
 export default generateDir;

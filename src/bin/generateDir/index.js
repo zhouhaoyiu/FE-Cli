@@ -40,23 +40,23 @@ var index_1 = require("../chalk/index");
 var utils_1 = require("./utils");
 function generateDir(opt) {
     return __awaiter(this, void 0, void 0, function () {
-        var projectName, description, author, version, license, gitinit, typescript, eslint;
+        var res;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    projectName = opt.projectName, description = opt.description, author = opt.author, version = opt.version, license = opt.license, gitinit = opt.gitinit, typescript = opt.typescript, eslint = opt.eslint;
-                    index_1.font.yellow("Initializing Project ".concat(projectName));
-                    if (!projectName) {
-                        projectName = "unnameProject";
+                    if (!opt.projectName) {
+                        opt.projectName = "unnameProject";
                     }
-                    return [4 /*yield*/, (0, utils_1.checkProjectNameIsExist)(projectName)];
+                    index_1.font.yellow("Initializing Project ".concat(opt.projectName));
+                    return [4 /*yield*/, (0, utils_1.checkProjectNameIsExistAndAskOverwrite)(opt.projectName)];
                 case 1:
-                    _a.sent();
-                    (0, utils_1.init)({ projectName: projectName, description: description, author: author, version: version, license: license, gitinit: gitinit, typescript: typescript, eslint: eslint });
-                    // if (gitinit) {
-                    //   initGit(projectName);
-                    // }
-                    index_1.font.green("".concat(projectName, " is success created"));
+                    res = _a.sent();
+                    if (!res) {
+                        opt.projectName += "_" + Math.random().toString(36).substring(2, 5);
+                        index_1.font.green("Project ".concat(opt.projectName, " already exists, use ").concat(opt.projectName, "_").concat(Math.random().toString(36).substring(2, 5), " instead"));
+                    }
+                    (0, utils_1.init)(opt);
+                    index_1.font.green("".concat(opt.projectName, " is success created"));
                     return [2 /*return*/];
             }
         });

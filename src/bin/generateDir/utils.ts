@@ -3,7 +3,8 @@ import { existsSync, mkdirSync, rmSync, writeFileSync } from "fs";
 import { baseOpt } from "../../../type";
 import { run } from "../../../utils/run";
 import { font } from "../chalk/index";
-import generatePackagejson from "../generatePackagejson/index";
+import generatePackagejson from "./generatePackagejson";
+import { tsconfigTemplate } from "./tpl";
 
 function init({ projectName, description, author, version, license, gitinit, typescript, eslint }: baseOpt): string {
   try {
@@ -11,8 +12,11 @@ function init({ projectName, description, author, version, license, gitinit, typ
     initSrc(projectName, typescript);
     initTest(projectName);
     initPackageJson({ projectName, author, typescript, eslint, description, version, license });
-    initLicense(projectName, license);
-    initTsconfig(projectName, typescript);
+
+    license && initLicense(projectName, license);
+    typescript && initTsconfig(projectName);
+    gitinit && initGit(projectName);
+
     return "init success";
   } catch (e: any) {
     return String(e);
@@ -45,15 +49,11 @@ function initPackageJson({ projectName, author, typescript, eslint, description,
 }
 
 function initLicense(projectName: baseOpt["projectName"], license: baseOpt["license"]): void {
-  if (license.length) {
-    writeFileSync(`${projectName}/LICENSE`, "");
-  }
+  writeFileSync(`${projectName}/LICENSE`, `${license}`);
 }
 
-function initTsconfig(projectName: baseOpt["projectName"], typescript: baseOpt["typescript"]): void {
-  if (typescript) {
-    writeFileSync(`${projectName}/tsconfig.json`, `{}`);
-  }
+function initTsconfig(projectName: baseOpt["projectName"]): void {
+  writeFileSync(`${projectName}/tsconfig.json`, JSON.stringify(tsconfigTemplate));
 }
 
 /**
@@ -80,7 +80,7 @@ function initGit(projectName: string): void {
  * @function 检查当前同名的项目是否存在
  * @param projectName 项目名称
  */
-async function checkProjectNameIsExist(projectName: string): Promise<void> {
+async function checkProjectNameIsExistAndAskOverwrite(projectName: string): Promise<boolean> {
   if (existsSync(projectName)) {
     const overwrite = await inquirer.prompt([
       {
@@ -90,16 +90,9 @@ async function checkProjectNameIsExist(projectName: string): Promise<void> {
         default: true
       }
     ]);
-    if (overwrite.overwrite) {
-      font.red(`${projectName} is exist,It will be overwrite`);
-      // 删除文件夹
-      rmSync(projectName, { recursive: true });
-    } else {
-      // 直接退出程序
-      font.red(`${projectName} is exist,process exit`);
-      process.exit(0);
-    }
+    return overwrite.overwrite;
   }
+  return true;
 }
 
 interface IInitOpt {
@@ -111,4 +104,4 @@ interface IInitOpt {
   gitinit?: boolean;
 }
 
-export { init, initGit, IInitOpt, checkProjectNameIsExist };
+export { init, initGit, IInitOpt, checkProjectNameIsExistAndAskOverwrite };
