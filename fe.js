@@ -45,7 +45,8 @@ var commander_1 = require("commander");
 var inquirer_1 = __importDefault(require("inquirer"));
 var generateDir_1 = __importDefault(require("./src/bin/generateDir"));
 var getGitInfo_1 = __importDefault(require("./src/bin/getGitInfo"));
-var package_json_1 = __importDefault(require("./package.json")); // @ts-ignore
+var package_json_1 = __importDefault(require("./package.json"));
+var preset_1 = __importDefault(require("./utils/preset"));
 var index_1 = require("./src/bin/chalk/index");
 var promptInfo_1 = require("./utils/promptInfo");
 var DEV = false;
@@ -55,16 +56,6 @@ if (fs_1["default"].existsSync(".env")) {
     DEV = environment === "development";
 }
 var program = new commander_1.Command();
-var baseOpts = {
-    projectName: "",
-    description: "",
-    author: "",
-    version: "",
-    license: "",
-    gitinit: false,
-    typescript: false,
-    eslint: false
-};
 program.version(package_json_1["default"].version); // package.json 中的版本号
 /**
  * @todoa add prompt and chalk
@@ -83,10 +74,10 @@ program
                 author = (options.author ? options.author : (0, getGitInfo_1["default"])("author")) || "";
                 if (!options["default"]) return [3 /*break*/, 2];
                 index_1.font.blue("You are using the default preset.");
-                baseOpts.author = author;
-                baseOpts.projectName = projectName;
-                baseOpts.gitinit = options.gitinit;
-                return [4 /*yield*/, (0, generateDir_1["default"])(baseOpts)];
+                preset_1["default"].author = author;
+                preset_1["default"].projectName = projectName;
+                preset_1["default"].gitinit = options.gitinit;
+                return [4 /*yield*/, (0, generateDir_1["default"])(preset_1["default"])];
             case 1:
                 _b.sent();
                 return [2 /*return*/];
@@ -97,18 +88,18 @@ program
                 for (_i = 0, _a = Object.keys(info); _i < _a.length; _i++) {
                     key = _a[_i];
                     // @ts-ignore
-                    baseOpts[key] = info[key];
+                    preset_1["default"][key] = info[key];
                 }
                 return [4 /*yield*/, inquirer_1["default"].prompt((0, promptInfo_1.dependenciesInfo)({
-                        typescript: baseOpts.typescript,
-                        eslint: baseOpts.eslint
+                        typescript: preset_1["default"].typescript,
+                        eslint: preset_1["default"].eslint
                     }))];
             case 4:
                 dependencies = _b.sent();
                 dependenciesArr = dependencies.dependencies;
-                baseOpts.typescript = dependenciesArr.includes("typescript");
-                baseOpts.eslint = dependenciesArr.includes("eslint");
-                return [4 /*yield*/, (0, generateDir_1["default"])(baseOpts)];
+                preset_1["default"].typescript = dependenciesArr.includes("typescript");
+                preset_1["default"].eslint = dependenciesArr.includes("eslint");
+                return [4 /*yield*/, (0, generateDir_1["default"])(preset_1["default"])];
             case 5:
                 _b.sent();
                 return [2 /*return*/];

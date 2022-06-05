@@ -10,7 +10,7 @@ declare function initGit(projectName: string): void;
  * @function 检查当前同名的项目是否存在
  * @param projectName 项目名称
  */
-declare function checkProjectNameIsExist(projectName: string): Promise<void>;
+declare function checkProjectNameIsExistAndAskOverwrite(projectName: string): Promise<boolean>;
 interface IInitOpt {
     projectName: string;
     description: string;
@@ -19,4 +19,4 @@ interface IInitOpt {
     license: string;
     gitinit?: boolean;
 }
-export { init, initGit, IInitOpt, checkProjectNameIsExist };
+export { init, initGit, IInitOpt, checkProjectNameIsExistAndAskOverwrite };

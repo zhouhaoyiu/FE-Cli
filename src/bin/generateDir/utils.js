@@ -39,12 +39,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-exports.checkProjectNameIsExist = exports.initGit = exports.init = void 0;
+exports.checkProjectNameIsExistAndAskOverwrite = exports.initGit = exports.init = void 0;
 var inquirer_1 = __importDefault(require("inquirer"));
 var fs_1 = require("fs");
 var run_1 = require("../../../utils/run");
-var index_1 = require("../chalk/index");
-var index_2 = __importDefault(require("../generatePackagejson/index"));
+var generatePackagejson_1 = __importDefault(require("./generatePackagejson"));
+var tpl_1 = require("./tpl");
 function init(_a) {
     var projectName = _a.projectName, description = _a.description, author = _a.author, version = _a.version, license = _a.license, gitinit = _a.gitinit, typescript = _a.typescript, eslint = _a.eslint;
     try {
@@ -52,8 +52,9 @@ function init(_a) {
         initSrc(projectName, typescript);
         initTest(projectName);
         initPackageJson({ projectName: projectName, author: author, typescript: typescript, eslint: eslint, description: description, version: version, license: license });
-        initLicense(projectName, license);
-        initTsconfig(projectName, typescript);
+        license && initLicense(projectName, license);
+        typescript && initTsconfig(projectName);
+        gitinit && initGit(projectName);
         return "init success";
     }
     catch (e) {
@@ -80,18 +81,14 @@ function initTest(projectName) {
 }
 function initPackageJson(_a) {
     var projectName = _a.projectName, author = _a.author, typescript = _a.typescript, eslint = _a.eslint, description = _a.description, version = _a.version, license = _a.license;
-    var packageJson = (0, index_2["default"])({ projectName: projectName, author: author, typescript: typescript, eslint: eslint, description: description, version: version, license: license });
+    var packageJson = (0, generatePackagejson_1["default"])({ projectName: projectName, author: author, typescript: typescript, eslint: eslint, description: description, version: version, license: license });
     (0, fs_1.writeFileSync)("".concat(projectName, "/package.json"), JSON.stringify(packageJson, null, 2));
 }
 function initLicense(projectName, license) {
-    if (license.length) {
-        (0, fs_1.writeFileSync)("".concat(projectName, "/LICENSE"), "");
-    }
+    (0, fs_1.writeFileSync)("".concat(projectName, "/LICENSE"), "".concat(license));
 }
-function initTsconfig(projectName, typescript) {
-    if (typescript) {
-        (0, fs_1.writeFileSync)("".concat(projectName, "/tsconfig.json"), "{}");
-    }
+function initTsconfig(projectName) {
+    (0, fs_1.writeFileSync)("".concat(projectName, "/tsconfig.json"), JSON.stringify(tpl_1.tsconfigTemplate));
 }
 /**
  * @deprecated 还没有完成
@@ -129,7 +126,7 @@ exports.initGit = initGit;
  * @function 检查当前同名的项目是否存在
  * @param projectName 项目名称
  */
-function checkProjectNameIsExist(projectName) {
+function checkProjectNameIsExistAndAskOverwrite(projectName) {
     return __awaiter(this, void 0, void 0, function () {
         var overwrite;
         return __generator(this, function (_a) {
@@ -146,20 +143,10 @@ function checkProjectNameIsExist(projectName) {
                         ])];
                 case 1:
                     overwrite = _a.sent();
-                    if (overwrite.overwrite) {
-                        index_1.font.red("".concat(projectName, " is exist,It will be overwrite"));
-                        // 删除文件夹
-                        (0, fs_1.rmSync)(projectName, { recursive: true });
-                    }
-                    else {
-                        // 直接退出程序
-                        index_1.font.red("".concat(projectName, " is exist,process exit"));
-                        process.exit(0);
-                    }
-                    _a.label = 2;
-                case 2: return [2 /*return*/];
+                    return [2 /*return*/, overwrite.overwrite];
+                case 2: return [2 /*return*/, true];
             }
         });
     });
 }
-exports.checkProjectNameIsExist = checkProjectNameIsExist;
+exports.checkProjectNameIsExistAndAskOverwrite = checkProjectNameIsExistAndAskOverwrite;
