@@ -66,15 +66,11 @@ function initRoot(projectName) {
     (0, fs_1.mkdirSync)(projectName);
 }
 function initSrc(projectName, typescript) {
+    var Extension = typescript ? "ts" : "js";
     (0, fs_1.mkdirSync)("".concat(projectName, "/src"));
-    (0, fs_1.writeFileSync)("".concat(projectName, "/src/index.").concat(typescript ? "ts" : "js"), "");
-    // 向生成的index文件中写入 console.log("hello world");
-    if (typescript) {
-        (0, fs_1.writeFileSync)("".concat(projectName, "/src/index.ts"), "console.log('hello world');");
-    }
-    else {
-        (0, fs_1.writeFileSync)("".concat(projectName, "/src/index.js"), "console.log('hello world');");
-    }
+    (0, fs_1.writeFileSync)("".concat(projectName, "/src/index.").concat(Extension), 'import hello from "./hello"\n\nhello()');
+    (0, fs_1.mkdirSync)("".concat(projectName, "/src/hello"));
+    (0, fs_1.writeFileSync)("".concat(projectName, "/src/hello/index.").concat(Extension), 'function hello() { \n  console.log("hello world");\n}\n\nexport default hello;');
 }
 function initTest(projectName) {
     (0, fs_1.mkdirSync)("".concat(projectName, "/test"));

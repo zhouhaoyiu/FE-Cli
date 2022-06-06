@@ -2,7 +2,7 @@ import execa from "execa";
 import fs from "fs";
 import { s2ms } from "../utils/timeConversion";
 
-const testDir: string = "testDir";
+const testDir: string = "testDir" + Math.random().toString(36).substring(2, 5);
 const timeOut: number = s2ms("20s");
 
 describe("index", () => {

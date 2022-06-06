@@ -28,15 +28,14 @@ function initRoot(projectName: baseOpt["projectName"]): void {
 }
 
 function initSrc(projectName: baseOpt["projectName"], typescript: baseOpt["typescript"]): void {
+  const Extension = typescript ? "ts" : "js";
+
   mkdirSync(`${projectName}/src`);
 
-  writeFileSync(`${projectName}/src/index.${typescript ? "ts" : "js"}`, "");
-  // 向生成的index文件中写入 console.log("hello world");
-  if (typescript) {
-    writeFileSync(`${projectName}/src/index.ts`, "console.log('hello world');");
-  } else {
-    writeFileSync(`${projectName}/src/index.js`, "console.log('hello world');");
-  }
+  writeFileSync(`${projectName}/src/index.${Extension}`, 'import hello from "./hello"\n\nhello()');
+
+  mkdirSync(`${projectName}/src/hello`);
+  writeFileSync(`${projectName}/src/hello/index.${Extension}`, 'function hello() { \n  console.log("hello world");\n}\n\nexport default hello;');
 }
 
 function initTest(projectName: baseOpt["projectName"]): void {
