@@ -62,5 +62,24 @@ program
     await generateDir(baseOpts);
   });
 
+program
+  .command("help")
+  .description("Show help")
+  .action(() => {
+    program.help();
+  });
+
+program
+  .command("test")
+  .description("Run tests")
+  .action(() => {
+    console.log("test");
+  });
+
+program.command("*").action(() => {
+  console.log("Invalid command");
+  program.help();
+});
+
 program.parse(process.argv);
 export default program;

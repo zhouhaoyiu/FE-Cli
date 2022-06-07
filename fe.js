@@ -103,5 +103,21 @@ program
         }
     });
 }); });
+program
+    .command("help")
+    .description("Show help")
+    .action(function () {
+    program.help();
+});
+program
+    .command("test")
+    .description("Run tests")
+    .action(function () {
+    console.log("test");
+});
+program.command("*").action(function () {
+    console.log("Invalid command");
+    program.help();
+});
 program.parse(process.argv);
 exports["default"] = program;
