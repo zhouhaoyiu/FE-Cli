@@ -57,6 +57,10 @@ function generateDir(opt) {
                     }
                     (0, utils_1.init)(opt);
                     index_1.font.green("".concat(opt.projectName, " is success created"));
+                    index_1.font.yellow("Run Project ".concat(opt.projectName));
+                    index_1.font.yellow("cd ".concat(opt.projectName));
+                    index_1.font.yellow("npm install || yarn");
+                    index_1.font.yellow("npm run dev || yarn dev");
                     return [2 /*return*/];
             }
         });

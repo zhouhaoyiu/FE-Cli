@@ -18,6 +18,11 @@ async function generateDir(opt: baseOpt): Promise<void> {
   init(opt);
 
   font.green(`${opt.projectName} is success created`);
+
+  font.yellow(`Run Project ${opt.projectName}`);
+  font.yellow(`cd ${opt.projectName}`);
+  font.yellow(`npm install || yarn`);
+  font.yellow(`npm run dev || yarn dev`);
 }
 
 export default generateDir;

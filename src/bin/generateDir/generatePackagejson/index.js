@@ -10,7 +10,8 @@ function generatePackagejson(_a) {
         version: version,
         license: license,
         scripts: {
-            test: 'echo "Error: no test specified" && exit 1'
+            test: 'echo "Error: no test specified" && exit 1',
+            dev: 'nodemon src/index.js'
         },
         dependencies: {},
         devDependencies: {}
