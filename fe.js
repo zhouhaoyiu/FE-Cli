@@ -115,6 +115,31 @@ program
     .action(function () {
     console.log("test");
 });
+program
+    .command("info")
+    .description("print debugging information about your environment")
+    .action(function (cmd) { return __awaiter(void 0, void 0, void 0, function () {
+    var res;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                index_1.font.bold("\nEnvironment Info:");
+                return [4 /*yield*/, require("envinfo").run({
+                        System: ["OS", "CPU"],
+                        Binaries: ["Node", "Yarn", "npm"],
+                        Browsers: ["Chrome", "Edge", "Firefox", "Safari"]
+                    }, {
+                        showNotFound: true,
+                        duplicates: true,
+                        fullTree: true
+                    })];
+            case 1:
+                res = _a.sent();
+                console.log(res);
+                return [2 /*return*/];
+        }
+    });
+}); });
 program.command("*").action(function () {
     console.log("Invalid command");
     program.help();

@@ -1,21 +1,22 @@
 declare class font {
-    static red(message: any): void;
-    static green(message: any): void;
-    static yellow(message: any): void;
-    static blue(message: any): void;
-    static magenta(message: any): void;
-    static cyan(message: any): void;
-    static white(message: any): void;
+    static red(message: string): void;
+    static green(message: string): void;
+    static yellow(message: string): void;
+    static blue(message: string): void;
+    static magenta(message: string): void;
+    static cyan(message: string): void;
+    static white(message: string): void;
+    static bold(message: string): void;
     constructor();
 }
 declare class background {
-    static red(message: any): void;
-    static green(message: any): void;
-    static yellow(message: any): void;
-    static blue(message: any): void;
-    static magenta(message: any): void;
-    static cyan(message: any): void;
-    static white(message: any): void;
+    static red(message: string): void;
+    static green(message: string): void;
+    static yellow(message: string): void;
+    static blue(message: string): void;
+    static magenta(message: string): void;
+    static cyan(message: string): void;
+    static white(message: string): void;
     constructor();
 }
 export { font, background };

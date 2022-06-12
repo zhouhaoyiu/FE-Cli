@@ -11,7 +11,7 @@ function generatePackagejson(_a) {
         license: license,
         scripts: {
             test: 'echo "Error: no test specified" && exit 1',
-            dev: 'nodemon src/index.js'
+            dev: "nodemon src/index.js"
         },
         dependencies: {},
         devDependencies: {}

@@ -1,7 +1,7 @@
-const supportColor: Color[] = ["red", "green", "yellow", "blue", "magenta", "cyan", "white"];
-type Color = "red" | "green" | "yellow" | "blue" | "magenta" | "cyan" | "white";
-
-function logWithFontColor(color: Color, message: any) {
+const supportFontStyle = ["red", "green", "yellow", "blue", "magenta", "cyan", "white", "bold"] as const;
+// supportColor中的一项
+type Color = typeof supportFontStyle[number];
+function fontStyle(color: Color, message: any) {
   switch (color) {
     case "red":
       console.log("\x1b[31m%s\x1b[0m", message);
@@ -24,9 +24,12 @@ function logWithFontColor(color: Color, message: any) {
     case "white":
       console.log("\x1b[37m%s\x1b[0m", message);
       break;
+    case "bold":
+      console.log("\x1b[1m%s\x1b[0m", message);
+      break;
     default:
       console.log(message);
   }
 }
 
-export default logWithFontColor;
+export default fontStyle;

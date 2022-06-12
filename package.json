@@ -13,18 +13,15 @@
   "scripts": {
     "prepare": "npx husky install && node ./scripts/husky_init.mjs",
     "relink": "node ./scripts/relink.js",
-
-    "dev":        "cross-env NODE_ENV=development node ./scripts/env.mjs && tsc fe.ts -w --esModuleInterop --resolveJsonModule",
-    "prod":       "cross-env NODE_ENV=production  node ./scripts/env.mjs && tsc fe.ts -w --esModuleInterop --resolveJsonModule",
-    "prod:test":  "cross-env NODE_ENV=production  node ./scripts/env.mjs && tsc fe.ts -d --esModuleInterop --resolveJsonModule",
-
+    "dev": "cross-env NODE_ENV=development node ./scripts/env.mjs && tsc fe.ts -w --esModuleInterop --resolveJsonModule",
+    "prod": "cross-env NODE_ENV=production  node ./scripts/env.mjs && tsc fe.ts -w --esModuleInterop --resolveJsonModule",
+    "prod:test": "cross-env NODE_ENV=production  node ./scripts/env.mjs && tsc fe.ts -d --esModuleInterop --resolveJsonModule",
     "format": "prettier --write **/*.ts --ignore-path .prettierignore",
     "test": "jest",
     "build": "npm run prod:test && npm run format",
-    
-    "update:small":  "node --experimental-modules ./scripts/version.js small",
+    "update:small": "node --experimental-modules ./scripts/version.js small",
     "update:middle": "node --experimental-modules ./scripts/version.js middle",
-    "update:large":  "node --experimental-modules ./scripts/version.js large"
+    "update:large": "node --experimental-modules ./scripts/version.js large"
   },
   "bin": {
     "fe": "fe.js"
@@ -34,6 +31,7 @@
     "copy-dir": "^1.3.0",
     "dayjs": "^1.11.3",
     "ejs": "^3.1.2",
+    "envinfo": "^7.8.1",
     "execa": "^1.0.0",
     "slash": "^4.0.0"
   },

@@ -4,32 +4,35 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 exports.background = exports.font = void 0;
-var fontColor_1 = __importDefault(require("./fontColor"));
+var fontStyle_1 = __importDefault(require("./fontStyle"));
 var bgColor_1 = __importDefault(require("./bgColor"));
 var font = /** @class */ (function () {
     function font() {
         return;
     }
     font.red = function (message) {
-        (0, fontColor_1["default"])("red", message);
+        (0, fontStyle_1["default"])("red", message);
     };
     font.green = function (message) {
-        (0, fontColor_1["default"])("green", message);
+        (0, fontStyle_1["default"])("green", message);
     };
     font.yellow = function (message) {
-        (0, fontColor_1["default"])("yellow", message);
+        (0, fontStyle_1["default"])("yellow", message);
     };
     font.blue = function (message) {
-        (0, fontColor_1["default"])("blue", message);
+        (0, fontStyle_1["default"])("blue", message);
     };
     font.magenta = function (message) {
-        (0, fontColor_1["default"])("magenta", message);
+        (0, fontStyle_1["default"])("magenta", message);
     };
     font.cyan = function (message) {
-        (0, fontColor_1["default"])("cyan", message);
+        (0, fontStyle_1["default"])("cyan", message);
     };
     font.white = function (message) {
-        (0, fontColor_1["default"])("white", message);
+        (0, fontStyle_1["default"])("white", message);
+    };
+    font.bold = function (message) {
+        (0, fontStyle_1["default"])("bold", message);
     };
     return font;
 }());

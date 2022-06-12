@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
-var supportColor = ["red", "green", "yellow", "blue", "magenta", "cyan", "white"];
-function logWithFontColor(color, message) {
+var supportFontStyle = ["red", "green", "yellow", "blue", "magenta", "cyan", "white", "bold"];
+function fontStyle(color, message) {
     switch (color) {
         case "red":
             console.log("\x1b[31m%s\x1b[0m", message);
@@ -24,8 +24,11 @@ function logWithFontColor(color, message) {
         case "white":
             console.log("\x1b[37m%s\x1b[0m", message);
             break;
+        case "bold":
+            console.log("\x1b[1m%s\x1b[0m", message);
+            break;
         default:
             console.log(message);
     }
 }
-exports["default"] = logWithFontColor;
+exports["default"] = fontStyle;

@@ -76,6 +76,26 @@ program
     console.log("test");
   });
 
+program
+  .command("info")
+  .description("print debugging information about your environment")
+  .action(async (cmd: any) => {
+    font.bold("\nEnvironment Info:");
+    const res = await require("envinfo").run(
+      {
+        System: ["OS", "CPU"],
+        Binaries: ["Node", "Yarn", "npm"],
+        Browsers: ["Chrome", "Edge", "Firefox", "Safari"]
+      },
+      {
+        showNotFound: true,
+        duplicates: true,
+        fullTree: true
+      }
+    );
+    console.log(res);
+  });
+
 program.command("*").action(() => {
   console.log("Invalid command");
   program.help();

@@ -1,27 +1,30 @@
-import logWithFontColor from "./fontColor";
+import fontStyle from "./fontStyle";
 import logWithBackGroundColor from "./bgColor";
 
 class font {
-  public static red(message: any) {
-    logWithFontColor("red", message);
+  public static red(message: string) {
+    fontStyle("red", message);
   }
-  public static green(message: any) {
-    logWithFontColor("green", message);
+  public static green(message: string) {
+    fontStyle("green", message);
   }
-  public static yellow(message: any) {
-    logWithFontColor("yellow", message);
+  public static yellow(message: string) {
+    fontStyle("yellow", message);
   }
-  public static blue(message: any) {
-    logWithFontColor("blue", message);
+  public static blue(message: string) {
+    fontStyle("blue", message);
   }
-  public static magenta(message: any) {
-    logWithFontColor("magenta", message);
+  public static magenta(message: string) {
+    fontStyle("magenta", message);
   }
-  public static cyan(message: any) {
-    logWithFontColor("cyan", message);
+  public static cyan(message: string) {
+    fontStyle("cyan", message);
   }
-  public static white(message: any) {
-    logWithFontColor("white", message);
+  public static white(message: string) {
+    fontStyle("white", message);
+  }
+  public static bold(message: string) {
+    fontStyle("bold", message);
   }
   constructor() {
     return;
@@ -29,25 +32,25 @@ class font {
 }
 
 class background {
-  public static red(message: any) {
+  public static red(message: string) {
     logWithBackGroundColor("red", message);
   }
-  public static green(message: any) {
+  public static green(message: string) {
     logWithBackGroundColor("green", message);
   }
-  public static yellow(message: any) {
+  public static yellow(message: string) {
     logWithBackGroundColor("yellow", message);
   }
-  public static blue(message: any) {
+  public static blue(message: string) {
     logWithBackGroundColor("blue", message);
   }
-  public static magenta(message: any) {
+  public static magenta(message: string) {
     logWithBackGroundColor("magenta", message);
   }
-  public static cyan(message: any) {
+  public static cyan(message: string) {
     logWithBackGroundColor("cyan", message);
   }
-  public static white(message: any) {
+  public static white(message: string) {
     logWithBackGroundColor("white", message);
   }
   constructor() {
