@@ -28,6 +28,7 @@ program
   .option("-d, --default", "Skip prompts and use default preset", false)
   .option("-gi, --gitinit", "Initialize git repo", false)
   .option("-a, --author <author>", "Author username for git", false)
+  .option("-t, --template <template>", "Template name", "pure")
   .action(async (projectName: string, options: { author: string; default: boolean; gitinit: boolean }) => {
     const author: string = (options.author ? options.author : getGitInfo("author")) || "";
 

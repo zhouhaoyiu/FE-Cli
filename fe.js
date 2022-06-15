@@ -63,6 +63,7 @@ program
     .option("-d, --default", "Skip prompts and use default preset", false)
     .option("-gi, --gitinit", "Initialize git repo", false)
     .option("-a, --author <author>", "Author username for git", false)
+    .option("-t, --template <template>", "Template name", "pure")
     .action(function (projectName, options) { return __awaiter(void 0, void 0, void 0, function () {
     var author, info, _i, _a, key, dependencies, dependenciesArr;
     return __generator(this, function (_b) {
