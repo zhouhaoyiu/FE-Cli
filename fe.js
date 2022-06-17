@@ -63,7 +63,7 @@ program
     .option("-d, --default", "Skip prompts and use default preset", false)
     .option("-gi, --gitinit", "Initialize git repo", false)
     .option("-a, --author <author>", "Author username for git", false)
-    .option("-t, --template <template>", "Template name", "pure")
+    .option("-t, --template <template>", "Template name", "js")
     .action(function (projectName, options) { return __awaiter(void 0, void 0, void 0, function () {
     var author, info, _i, _a, key, dependencies, dependenciesArr;
     return __generator(this, function (_b) {
@@ -79,7 +79,30 @@ program
             case 1:
                 _b.sent();
                 return [2 /*return*/];
-            case 2: return [4 /*yield*/, inquirer_1["default"].prompt((0, promptInfo_1.projectInfo)(projectName, author))];
+            case 2:
+                if (options.template) {
+                    switch (options.template) {
+                        case "js":
+                            void 0;
+                            break;
+                        case "ts":
+                            void 0;
+                            break;
+                        case "react":
+                            void 0;
+                            break;
+                        case "vue2":
+                            void 0;
+                            break;
+                        case "vue3":
+                            void 0;
+                            break;
+                        default:
+                            index_1.font.red("Template not found.");
+                            break;
+                    }
+                }
+                return [4 /*yield*/, inquirer_1["default"].prompt((0, promptInfo_1.projectInfo)(projectName, author))];
             case 3:
                 info = _b.sent();
                 for (_i = 0, _a = Object.keys(info); _i < _a.length; _i++) {

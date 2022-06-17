@@ -28,8 +28,8 @@ program
   .option("-d, --default", "Skip prompts and use default preset", false)
   .option("-gi, --gitinit", "Initialize git repo", false)
   .option("-a, --author <author>", "Author username for git", false)
-  .option("-t, --template <template>", "Template name", "pure")
-  .action(async (projectName: string, options: { author: string; default: boolean; gitinit: boolean }) => {
+  .option("-t, --template <template>", "Template name", "js")
+  .action(async (projectName: string, options: { author: string; default: boolean; gitinit: boolean; template: string }) => {
     const author: string = (options.author ? options.author : getGitInfo("author")) || "";
 
     if (options.default) {
@@ -39,6 +39,28 @@ program
       baseOpts.gitinit = options.gitinit;
       await generateDir(baseOpts);
       return;
+    }
+    if (options.template) {
+      switch (options.template) {
+        case "js":
+          void 0;
+          break;
+        case "ts":
+          void 0;
+          break;
+        case "react":
+          void 0;
+          break;
+        case "vue2":
+          void 0;
+          break;
+        case "vue3":
+          void 0;
+          break;
+        default:
+          font.red("Template not found.");
+          break;
+      }
     }
 
     const info: IInitOpt = await inquirer.prompt(projectInfo(projectName, author));
