@@ -101,6 +101,7 @@ program
                             index_1.font.red("Template not found.");
                             break;
                     }
+                    return [2 /*return*/];
                 }
                 return [4 /*yield*/, inquirer_1["default"].prompt((0, promptInfo_1.projectInfo)(projectName, author))];
             case 3:

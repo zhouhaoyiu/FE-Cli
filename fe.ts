@@ -29,7 +29,7 @@ program
   .option("-gi, --gitinit", "Initialize git repo", false)
   .option("-a, --author <author>", "Author username for git", false)
   .option("-t, --template <template>", "Template name", "js")
-  .action(async (projectName: string, options: { author: string; default: boolean; gitinit: boolean; template: string }) => {
+  .action(async (projectName: string, options: { author: string; default: boolean; gitinit: boolean; template: "js" | "ts" | "react" | "vue2" | "vue3" }) => {
     const author: string = (options.author ? options.author : getGitInfo("author")) || "";
 
     if (options.default) {
@@ -61,6 +61,7 @@ program
           font.red("Template not found.");
           break;
       }
+      return;
     }
 
     const info: IInitOpt = await inquirer.prompt(projectInfo(projectName, author));
