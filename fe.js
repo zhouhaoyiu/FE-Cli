@@ -156,7 +156,8 @@ program
                     }, {
                         showNotFound: true,
                         duplicates: true,
-                        fullTree: true
+                        fullTree: true,
+                        showBundled: true
                     })];
             case 1:
                 res = _a.sent();
@@ -165,9 +166,25 @@ program
         }
     });
 }); });
+program.command("template").action(function () {
+    console.log("-----template-------");
+    console.log("js");
+    console.log("ts");
+    console.log("react");
+    console.log("vue2");
+    console.log("vue3");
+});
 program.command("*").action(function () {
     console.log("Invalid command");
     program.help();
 });
+var 帅哥 = /** @class */ (function () {
+    function 帅哥() {
+        this.身高 = 185;
+        this.年龄 = 20;
+    }
+    return 帅哥;
+}());
+var 对象 = new 帅哥();
 program.parse(process.argv);
 exports["default"] = program;

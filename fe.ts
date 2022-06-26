@@ -114,16 +114,30 @@ program
       {
         showNotFound: true,
         duplicates: true,
-        fullTree: true
+        fullTree: true,
+        showBundled: true
       }
     );
     console.log(res);
   });
-
+program.command("template").action(() => {
+  console.log("-----template-------");
+  console.log("js");
+  console.log("ts");
+  console.log("react");
+  console.log("vue2");
+  console.log("vue3");
+});
 program.command("*").action(() => {
   console.log("Invalid command");
   program.help();
 });
+
+class 帅哥 {
+  private 身高: number = 185;
+  private 年龄: number = 20;
+}
+const 对象 = new 帅哥();
 
 program.parse(process.argv);
 export default program;
