@@ -40,6 +40,7 @@ function initSrc(projectName: baseOpt["projectName"], typescript: baseOpt["types
 
 function initTest(projectName: baseOpt["projectName"]): void {
   mkdirSync(`${projectName}/test`);
+  writeFileSync(`${projectName}/test/index.js`, 'import hello from "./hello"\n\nhello()');
 }
 
 function initPackageJson({ projectName, author, typescript, eslint, description, version, license }: baseOpt): void {

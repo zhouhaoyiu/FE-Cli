@@ -74,6 +74,7 @@ function initSrc(projectName, typescript) {
 }
 function initTest(projectName) {
     (0, fs_1.mkdirSync)("".concat(projectName, "/test"));
+    (0, fs_1.writeFileSync)("".concat(projectName, "/test/index.js"), 'import hello from "./hello"\n\nhello()');
 }
 function initPackageJson(_a) {
     var projectName = _a.projectName, author = _a.author, typescript = _a.typescript, eslint = _a.eslint, description = _a.description, version = _a.version, license = _a.license;
