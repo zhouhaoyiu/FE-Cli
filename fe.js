@@ -56,6 +56,14 @@ if (fs_1["default"].existsSync(".env")) {
     DEV = environment === "development";
 }
 var program = new commander_1.Command();
+var validProjectName = /^[a-zA-Z0-9_]+$/;
+function getValidProjectName(name) {
+    if (!validProjectName.test(name)) {
+        console.log(index_1.font.red("\u9879\u76EE\u540D\u79F0\u4E0D\u5408\u6CD5\uFF0C\u53EA\u80FD\u5305\u542B\u5B57\u6BCD\u3001\u6570\u5B57\u3001\u4E0B\u5212\u7EBF"));
+        return name.replace(/[^a-zA-Z0-9_]/g, "");
+    }
+    return name;
+}
 program.version(package_json_1["default"].version); // package.json 中的版本号
 program
     .command("init <name>")
@@ -70,6 +78,7 @@ program
         switch (_b.label) {
             case 0:
                 author = (options.author ? options.author : (0, getGitInfo_1["default"])("author")) || "";
+                projectName = getValidProjectName(projectName);
                 if (!options["default"]) return [3 /*break*/, 2];
                 index_1.font.blue("You are using the default preset.");
                 preset_1["default"].author = author;

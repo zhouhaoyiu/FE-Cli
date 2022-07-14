@@ -19,7 +19,14 @@ if (fs.existsSync(".env")) {
 }
 
 const program = new Command();
-
+const validProjectName = /^[a-zA-Z0-9_]+$/;
+function getValidProjectName(name: string) {
+  if (!validProjectName.test(name)) {
+    console.log(font.red(`项目名称不合法，只能包含字母、数字、下划线`));
+    return name.replace(/[^a-zA-Z0-9_]/g, "");
+  }
+  return name;
+}
 program.version(_package.version); // package.json 中的版本号
 
 program
@@ -31,7 +38,7 @@ program
   .option("-t, --template <template>", "Template name", "js")
   .action(async (projectName: string, options: { author: string; default: boolean; gitinit: boolean; template: "js" | "ts" | "react" | "vue2" | "vue3" }) => {
     const author: string = (options.author ? options.author : getGitInfo("author")) || "";
-
+    projectName = getValidProjectName(projectName);
     if (options.default) {
       font.blue("You are using the default preset.");
       baseOpts.author = author;
