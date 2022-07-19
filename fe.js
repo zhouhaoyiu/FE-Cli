@@ -64,7 +64,7 @@ function getValidProjectName(name) {
     }
     return name;
 }
-program.version(package_json_1["default"].version); // package.json 中的版本号
+program.version(package_json_1["default"].version);
 program
     .command("init <name>")
     // .description("Initialize a new project")

@@ -27,7 +27,7 @@ function getValidProjectName(name: string) {
   }
   return name;
 }
-program.version(_package.version); // package.json 中的版本号
+program.version(_package.version);
 
 program
   .command("init <name>")

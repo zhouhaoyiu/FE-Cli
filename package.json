@@ -19,9 +19,9 @@
     "format": "prettier --write **/*.ts --ignore-path .prettierignore",
     "test": "jest",
     "build": "npm run prod:test && npm run format",
-    "update:small": "node --experimental-modules ./scripts/version.js small",
+    "update:small":  "node --experimental-modules ./scripts/version.js small",
     "update:middle": "node --experimental-modules ./scripts/version.js middle",
-    "update:large": "node --experimental-modules ./scripts/version.js large"
+    "update:large":  "node --experimental-modules ./scripts/version.js large"
   },
   "bin": {
     "fe": "fe.js"
