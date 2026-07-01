@@ -1,9 +1,9 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.getLicensrTemplate = exports.tsconfigTemplate = void 0;
 var tplText_1 = require("./tplText");
 var tsconfigTemplate = {
-    "default": tplText_1.tsconfigDefault
+    default: tplText_1.tsconfigDefault
 };
 exports.tsconfigTemplate = tsconfigTemplate;
 var getLicensrTemplate = function (license) {

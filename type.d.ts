@@ -3,5 +3,5 @@ interface IPrompt {
     typescript: boolean;
     eslint: boolean;
 }
-declare type baseOpt = IInitOpt & IPrompt;
+type baseOpt = IInitOpt & IPrompt;
 export { baseOpt };

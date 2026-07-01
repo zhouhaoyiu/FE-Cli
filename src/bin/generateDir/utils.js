@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkProjectNameIsExistAndAskOverwrite = exports.initGit = exports.init = void 0;
 var inquirer_1 = __importDefault(require("inquirer"));
 var fs_1 = require("fs");
@@ -78,7 +78,7 @@ function initTest(projectName) {
 }
 function initPackageJson(_a) {
     var projectName = _a.projectName, author = _a.author, typescript = _a.typescript, eslint = _a.eslint, description = _a.description, version = _a.version, license = _a.license;
-    var packageJson = (0, generatePackagejson_1["default"])({ projectName: projectName, author: author, typescript: typescript, eslint: eslint, description: description, version: version, license: license });
+    var packageJson = (0, generatePackagejson_1.default)({ projectName: projectName, author: author, typescript: typescript, eslint: eslint, description: description, version: version, license: license });
     (0, fs_1.writeFileSync)("".concat(projectName, "/package.json"), JSON.stringify(packageJson, null, 2));
 }
 function initLicense(projectName, license) {
@@ -130,12 +130,12 @@ function checkProjectNameIsExistAndAskOverwrite(projectName) {
             switch (_a.label) {
                 case 0:
                     if (!(0, fs_1.existsSync)(projectName)) return [3 /*break*/, 2];
-                    return [4 /*yield*/, inquirer_1["default"].prompt([
+                    return [4 /*yield*/, inquirer_1.default.prompt([
                             {
                                 type: "confirm",
                                 name: "overwrite",
                                 message: "".concat(projectName, " is exist, do you want to overwrite it?"),
-                                "default": true
+                                default: true
                             }
                         ])];
                 case 1:

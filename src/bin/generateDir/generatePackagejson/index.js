@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 function generatePackagejson(_a) {
     var projectName = _a.projectName, author = _a.author, description = _a.description, version = _a.version, license = _a.license, typescript = _a.typescript, eslint = _a.eslint;
     var packagejson = {
@@ -21,4 +21,4 @@ function generatePackagejson(_a) {
     }
     return packagejson;
 }
-exports["default"] = generatePackagejson;
+exports.default = generatePackagejson;

@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var baseOpts = {
     projectName: "",
     description: "",
@@ -10,4 +10,4 @@ var baseOpts = {
     typescript: false,
     eslint: false
 };
-exports["default"] = baseOpts;
+exports.default = baseOpts;

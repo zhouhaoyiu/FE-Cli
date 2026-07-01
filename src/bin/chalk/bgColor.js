@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 function logWithBackGroundColor(color, message) {
     var logText = "";
     switch (color) {
@@ -30,4 +30,4 @@ function logWithBackGroundColor(color, message) {
     logText ? console.log(logText, message) : console.log(message);
     return logText;
 }
-exports["default"] = logWithBackGroundColor;
+exports.default = logWithBackGroundColor;

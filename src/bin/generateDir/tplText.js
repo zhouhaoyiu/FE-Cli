@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.MITLicense = exports.tsconfigDefault = void 0;
 var tsconfigDefault = {
     compilerOptions: {

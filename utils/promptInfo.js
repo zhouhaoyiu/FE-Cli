@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.Lisence = exports.dependenciesInfo = exports.projectInfo = void 0;
 var projectInfo = function (projectName, author) {
     return [
@@ -7,25 +7,25 @@ var projectInfo = function (projectName, author) {
             type: "input",
             name: "projectName",
             message: "Project name",
-            "default": projectName
+            default: projectName
         },
         {
             type: "input",
             name: "description",
             message: "Project description",
-            "default": "A project created by" + author
+            default: "A project created by" + author
         },
         {
             type: "input",
             name: "author",
             message: "Author",
-            "default": author
+            default: author
         },
         {
             type: "input",
             name: "version",
             message: "Version",
-            "default": "1.0.0"
+            default: "1.0.0"
         },
         {
             type: "list",

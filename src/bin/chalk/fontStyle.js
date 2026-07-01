@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var supportFontStyle = ["red", "green", "yellow", "blue", "magenta", "cyan", "white", "bold"];
 function fontStyle(color, message) {
     switch (color) {
@@ -31,4 +31,4 @@ function fontStyle(color, message) {
             console.log(message);
     }
 }
-exports["default"] = fontStyle;
+exports.default = fontStyle;

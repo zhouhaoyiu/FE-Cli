@@ -15,7 +15,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -39,7 +39,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var fs_1 = __importDefault(require("fs"));
 var commander_1 = require("commander");
 var inquirer_1 = __importDefault(require("inquirer"));
@@ -51,8 +51,8 @@ var index_1 = require("./src/bin/chalk/index");
 var promptInfo_1 = require("./utils/promptInfo");
 var DEV = false;
 // 获得.env文件中的NODE_ENV的值
-if (fs_1["default"].existsSync(".env")) {
-    var environment = fs_1["default"].readFileSync(".env", "utf-8").match(/NODE_ENV=(.*)/)[1];
+if (fs_1.default.existsSync(".env")) {
+    var environment = fs_1.default.readFileSync(".env", "utf-8").match(/NODE_ENV=(.*)/)[1];
     DEV = environment === "development";
 }
 var program = new commander_1.Command();
@@ -64,7 +64,7 @@ function getValidProjectName(name) {
     }
     return name;
 }
-program.version(package_json_1["default"].version);
+program.version(package_json_1.default.version);
 program
     .command("init <name>")
     // .description("Initialize a new project")
@@ -77,14 +77,14 @@ program
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                author = (options.author ? options.author : (0, getGitInfo_1["default"])("author")) || "";
+                author = (options.author ? options.author : (0, getGitInfo_1.default)("author")) || "";
                 projectName = getValidProjectName(projectName);
-                if (!options["default"]) return [3 /*break*/, 2];
+                if (!options.default) return [3 /*break*/, 2];
                 index_1.font.blue("You are using the default preset.");
-                preset_1["default"].author = author;
-                preset_1["default"].projectName = projectName;
-                preset_1["default"].gitinit = options.gitinit;
-                return [4 /*yield*/, (0, generateDir_1["default"])(preset_1["default"])];
+                preset_1.default.author = author;
+                preset_1.default.projectName = projectName;
+                preset_1.default.gitinit = options.gitinit;
+                return [4 /*yield*/, (0, generateDir_1.default)(preset_1.default)];
             case 1:
                 _b.sent();
                 return [2 /*return*/];
@@ -112,25 +112,25 @@ program
                     }
                     return [2 /*return*/];
                 }
-                return [4 /*yield*/, inquirer_1["default"].prompt((0, promptInfo_1.projectInfo)(projectName, author))];
+                return [4 /*yield*/, inquirer_1.default.prompt((0, promptInfo_1.projectInfo)(projectName, author))];
             case 3:
                 info = _b.sent();
                 for (_i = 0, _a = Object.keys(info); _i < _a.length; _i++) {
                     key = _a[_i];
                     // @ts-ignore
-                    preset_1["default"][key] = info[key];
+                    preset_1.default[key] = info[key];
                 }
-                return [4 /*yield*/, inquirer_1["default"].prompt((0, promptInfo_1.dependenciesInfo)({
-                        typescript: preset_1["default"].typescript,
-                        eslint: preset_1["default"].eslint
+                return [4 /*yield*/, inquirer_1.default.prompt((0, promptInfo_1.dependenciesInfo)({
+                        typescript: preset_1.default.typescript,
+                        eslint: preset_1.default.eslint
                     }))];
             case 4:
                 dependencies = _b.sent();
                 dependenciesArr = dependencies.dependencies;
-                preset_1["default"].typescript = dependenciesArr.includes("typescript");
-                preset_1["default"].eslint = dependenciesArr.includes("eslint");
-                DEV && console.log(preset_1["default"]);
-                return [4 /*yield*/, (0, generateDir_1["default"])(preset_1["default"])];
+                preset_1.default.typescript = dependenciesArr.includes("typescript");
+                preset_1.default.eslint = dependenciesArr.includes("eslint");
+                DEV && console.log(preset_1.default);
+                return [4 /*yield*/, (0, generateDir_1.default)(preset_1.default)];
             case 5:
                 _b.sent();
                 return [2 /*return*/];
@@ -196,4 +196,4 @@ var 帅哥 = /** @class */ (function () {
 }());
 var 对象 = new 帅哥();
 program.parse(process.argv);
-exports["default"] = program;
+exports.default = program;
