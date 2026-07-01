@@ -13,15 +13,15 @@
   "scripts": {
     "prepare": "npx husky install && node ./scripts/husky_init.mjs",
     "relink": "node ./scripts/relink.js",
-    "dev": "cross-env NODE_ENV=development node ./scripts/env.mjs && tsc fe.ts -w --esModuleInterop --resolveJsonModule",
-    "prod": "cross-env NODE_ENV=production  node ./scripts/env.mjs && tsc fe.ts -w --esModuleInterop --resolveJsonModule",
-    "prod:test": "cross-env NODE_ENV=production  node ./scripts/env.mjs && tsc fe.ts -d --esModuleInterop --resolveJsonModule",
+    "dev": "cross-env NODE_ENV=development node ./scripts/env.mjs && tsc fe.ts -w --ignoreConfig --target es5 --module commonjs --types node --esModuleInterop --resolveJsonModule --skipLibCheck --noImplicitAny false --ignoreDeprecations 6.0",
+    "prod": "cross-env NODE_ENV=production  node ./scripts/env.mjs && tsc fe.ts -w --ignoreConfig --target es5 --module commonjs --types node --esModuleInterop --resolveJsonModule --skipLibCheck --noImplicitAny false --ignoreDeprecations 6.0",
+    "prod:test": "cross-env NODE_ENV=production  node ./scripts/env.mjs && tsc fe.ts -d --ignoreConfig --target es5 --module commonjs --types node --esModuleInterop --resolveJsonModule --skipLibCheck --noImplicitAny false --ignoreDeprecations 6.0",
     "format": "prettier --write **/*.ts --ignore-path .prettierignore",
     "test": "jest",
     "build": "npm run prod:test && npm run format",
-    "update:small":  "node --experimental-modules ./scripts/version.js small",
+    "update:small": "node --experimental-modules ./scripts/version.js small",
     "update:middle": "node --experimental-modules ./scripts/version.js middle",
-    "update:large":  "node --experimental-modules ./scripts/version.js large"
+    "update:large": "node --experimental-modules ./scripts/version.js large"
   },
   "bin": {
     "fe": "fe.js"
@@ -29,21 +29,21 @@
   "dependencies": {
     "commander": "^11.0.0",
     "copy-dir": "^1.3.0",
-    "dayjs": "^1.11.9",
+    "dayjs": "^1.11.21",
     "ejs": "^3.1.9",
-    "envinfo": "^7.10.0",
+    "envinfo": "^7.21.0",
     "execa": "^1.0.0",
     "slash": "^5.1.0"
   },
   "devDependencies": {
-    "@types/jest": "^28.1.6",
+    "@types/jest": "^30.0.0",
     "@types/node": "^20.4.2",
     "cross-env": "^7.0.3",
-    "husky": "^8.0.3",
+    "husky": "^9.1.7",
     "inquirer": "^8.2.4",
-    "jest": "^28.1.3",
+    "jest": "^30.4.2",
     "prettier": "^3.0.0",
-    "ts-jest": "^28.0.4",
-    "typescript": "^5.1.6"
+    "ts-jest": "^29.4.11",
+    "typescript": "^6.0.3"
   }
 }

@@ -9,8 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
@@ -39,7 +39,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkProjectNameIsExistAndAskOverwrite = exports.initGit = exports.init = void 0;
+exports.init = init;
+exports.initGit = initGit;
+exports.checkProjectNameIsExistAndAskOverwrite = checkProjectNameIsExistAndAskOverwrite;
 var inquirer_1 = __importDefault(require("inquirer"));
 var fs_1 = require("fs");
 var run_1 = require("../../../utils/run");
@@ -61,7 +63,6 @@ function init(_a) {
         return String(e);
     }
 }
-exports.init = init;
 function initRoot(projectName) {
     (0, fs_1.mkdirSync)(projectName);
 }
@@ -117,7 +118,6 @@ function initGit(projectName) {
         });
     }); })();
 }
-exports.initGit = initGit;
 /**
  * @zhouhaoyiu
  * @function 检查当前同名的项目是否存在
@@ -146,4 +146,3 @@ function checkProjectNameIsExistAndAskOverwrite(projectName) {
         });
     });
 }
-exports.checkProjectNameIsExistAndAskOverwrite = checkProjectNameIsExistAndAskOverwrite;
