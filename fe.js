@@ -56,6 +56,7 @@ if (fs_1.default.existsSync(".env")) {
     DEV = environment === "development";
 }
 var program = new commander_1.Command();
+process.argv = process.argv.map(function (arg) { return (arg === "-gi" ? "--gitinit" : arg); });
 var validProjectName = /^[a-zA-Z0-9_]+$/;
 function getValidProjectName(name) {
     if (!validProjectName.test(name)) {
@@ -69,7 +70,7 @@ program
     .command("init <name>")
     // .description("Initialize a new project")
     .option("-d, --default", "Skip prompts and use default preset", false)
-    .option("-gi, --gitinit", "Initialize git repo", false)
+    .option("-g, --gitinit", "Initialize git repo", false)
     .option("-a, --author <author>", "Author username for git", false)
     .option("-t, --template <template>", "Template name", "js")
     .action(function (projectName, options) { return __awaiter(void 0, void 0, void 0, function () {

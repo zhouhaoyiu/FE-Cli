@@ -19,6 +19,7 @@ if (fs.existsSync(".env")) {
 }
 
 const program = new Command();
+process.argv = process.argv.map((arg) => (arg === "-gi" ? "--gitinit" : arg));
 const validProjectName = /^[a-zA-Z0-9_]+$/;
 function getValidProjectName(name: string) {
   if (!validProjectName.test(name)) {
@@ -33,7 +34,7 @@ program
   .command("init <name>")
   // .description("Initialize a new project")
   .option("-d, --default", "Skip prompts and use default preset", false)
-  .option("-gi, --gitinit", "Initialize git repo", false)
+  .option("-g, --gitinit", "Initialize git repo", false)
   .option("-a, --author <author>", "Author username for git", false)
   .option("-t, --template <template>", "Template name", "js")
   .action(async (projectName: string, options: { author: string; default: boolean; gitinit: boolean; template: "js" | "ts" | "react" | "vue2" | "vue3" }) => {
