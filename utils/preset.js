@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var baseOpts = {
+let baseOpts = {
     projectName: "",
     description: "",
     author: "",

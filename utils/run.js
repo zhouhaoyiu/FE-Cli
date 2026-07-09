@@ -4,11 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.run = run;
-var execa_1 = __importDefault(require("execa"));
+const execa_1 = __importDefault(require("execa"));
 function run(command, args) {
-    var _a;
     if (!args) {
-        _a = command.split(/\s+/), command = _a[0], args = _a.slice(1);
+        [command, ...args] = command.split(/\s+/);
     }
     return (0, execa_1.default)(command, args);
 }

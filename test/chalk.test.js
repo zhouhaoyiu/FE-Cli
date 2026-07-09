@@ -1,4 +1,4 @@
-import logWithBackGroundColor from "../src/bin/chalk/bgColor";
+const logWithBackGroundColor = require("../src/bin/chalk/bgColor").default;
 
 describe("chalk", () => {
   test("print red background", () => {

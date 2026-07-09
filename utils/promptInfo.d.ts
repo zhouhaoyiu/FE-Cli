@@ -5,6 +5,7 @@ declare const projectInfo: (projectName: string, author: string) => ({
     default: string;
     choices?: undefined;
 } | {
+    default?: undefined;
     type: string;
     name: string;
     message: string;
@@ -12,7 +13,6 @@ declare const projectInfo: (projectName: string, author: string) => ({
         name: string;
         value: string;
     }[];
-    default?: undefined;
 })[];
 declare const Lisence: {
     name: string;
