@@ -16,9 +16,9 @@
   "scripts": {
     "prepare": "npx husky install && node ./scripts/husky_init.mjs",
     "relink": "node ./scripts/relink.js",
-    "dev": "cross-env NODE_ENV=development node ./scripts/env.mjs && tsc fe.ts -w --ignoreConfig --target es5 --module commonjs --types node --esModuleInterop --resolveJsonModule --skipLibCheck --noImplicitAny false --ignoreDeprecations 6.0",
-    "prod": "cross-env NODE_ENV=production  node ./scripts/env.mjs && tsc fe.ts -w --ignoreConfig --target es5 --module commonjs --types node --esModuleInterop --resolveJsonModule --skipLibCheck --noImplicitAny false --ignoreDeprecations 6.0",
-    "prod:test": "cross-env NODE_ENV=production  node ./scripts/env.mjs && tsc fe.ts -d --ignoreConfig --target es5 --module commonjs --types node --esModuleInterop --resolveJsonModule --skipLibCheck --noImplicitAny false --ignoreDeprecations 6.0",
+    "dev": "cross-env NODE_ENV=development node ./scripts/env.mjs && tsc fe.ts -w --ignoreConfig --target es2018 --module commonjs --types node --esModuleInterop --resolveJsonModule --skipLibCheck --noImplicitAny false --ignoreDeprecations 6.0",
+    "prod": "cross-env NODE_ENV=production  node ./scripts/env.mjs && tsc fe.ts -w --ignoreConfig --target es2018 --module commonjs --types node --esModuleInterop --resolveJsonModule --skipLibCheck --noImplicitAny false --ignoreDeprecations 6.0",
+    "prod:test": "cross-env NODE_ENV=production  node ./scripts/env.mjs && tsc fe.ts -d --ignoreConfig --target es2018 --module commonjs --types node --esModuleInterop --resolveJsonModule --skipLibCheck --noImplicitAny false --ignoreDeprecations 6.0",
     "format": "prettier --write **/*.ts --ignore-path .prettierignore",
     "test": "jest",
     "build": "npm run prod:test && npm run format",
@@ -46,7 +46,6 @@
     "inquirer": "^8.2.4",
     "jest": "^30.4.2",
     "prettier": "^3.0.0",
-    "ts-jest": "^29.4.11",
     "typescript": "^7.0.2"
   }
 }

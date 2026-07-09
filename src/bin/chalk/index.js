@@ -4,64 +4,62 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.background = exports.font = void 0;
-var fontStyle_1 = __importDefault(require("./fontStyle"));
-var bgColor_1 = __importDefault(require("./bgColor"));
-var font = /** @class */ (function () {
-    function font() {
-        return;
-    }
-    font.red = function (message) {
+const fontStyle_1 = __importDefault(require("./fontStyle"));
+const bgColor_1 = __importDefault(require("./bgColor"));
+class font {
+    static red(message) {
         (0, fontStyle_1.default)("red", message);
-    };
-    font.green = function (message) {
+    }
+    static green(message) {
         (0, fontStyle_1.default)("green", message);
-    };
-    font.yellow = function (message) {
+    }
+    static yellow(message) {
         (0, fontStyle_1.default)("yellow", message);
-    };
-    font.blue = function (message) {
+    }
+    static blue(message) {
         (0, fontStyle_1.default)("blue", message);
-    };
-    font.magenta = function (message) {
+    }
+    static magenta(message) {
         (0, fontStyle_1.default)("magenta", message);
-    };
-    font.cyan = function (message) {
+    }
+    static cyan(message) {
         (0, fontStyle_1.default)("cyan", message);
-    };
-    font.white = function (message) {
+    }
+    static white(message) {
         (0, fontStyle_1.default)("white", message);
-    };
-    font.bold = function (message) {
+    }
+    static bold(message) {
         (0, fontStyle_1.default)("bold", message);
-    };
-    return font;
-}());
-exports.font = font;
-var background = /** @class */ (function () {
-    function background() {
+    }
+    constructor() {
         return;
     }
-    background.red = function (message) {
+}
+exports.font = font;
+class background {
+    static red(message) {
         (0, bgColor_1.default)("red", message);
-    };
-    background.green = function (message) {
+    }
+    static green(message) {
         (0, bgColor_1.default)("green", message);
-    };
-    background.yellow = function (message) {
+    }
+    static yellow(message) {
         (0, bgColor_1.default)("yellow", message);
-    };
-    background.blue = function (message) {
+    }
+    static blue(message) {
         (0, bgColor_1.default)("blue", message);
-    };
-    background.magenta = function (message) {
+    }
+    static magenta(message) {
         (0, bgColor_1.default)("magenta", message);
-    };
-    background.cyan = function (message) {
+    }
+    static cyan(message) {
         (0, bgColor_1.default)("cyan", message);
-    };
-    background.white = function (message) {
+    }
+    static white(message) {
         (0, bgColor_1.default)("white", message);
-    };
-    return background;
-}());
+    }
+    constructor() {
+        return;
+    }
+}
 exports.background = background;

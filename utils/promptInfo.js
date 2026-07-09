@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Lisence = exports.dependenciesInfo = exports.projectInfo = void 0;
-var projectInfo = function (projectName, author) {
+const projectInfo = (projectName, author) => {
     return [
         {
             type: "input",
@@ -36,7 +36,7 @@ var projectInfo = function (projectName, author) {
     ];
 };
 exports.projectInfo = projectInfo;
-var Lisence = [
+const Lisence = [
     {
         name: "MIT",
         value: "MIT"
@@ -63,8 +63,7 @@ var Lisence = [
     }
 ];
 exports.Lisence = Lisence;
-var dependenciesInfo = function (_a) {
-    var typescript = _a.typescript, eslint = _a.eslint;
+const dependenciesInfo = ({ typescript, eslint }) => {
     return [
         {
             type: "checkbox",

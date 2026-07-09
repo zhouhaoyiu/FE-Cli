@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function logWithBackGroundColor(color, message) {
-    var logText = "";
+    let logText = "";
     switch (color) {
         case "red":
             logText = "\x1b[41m%s\x1b[0m";
