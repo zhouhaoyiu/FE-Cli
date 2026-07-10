@@ -24,11 +24,14 @@ jobs:
       run: git config --global init.defaultBranch main
 
     - uses: actions/checkout@v7
+    - uses: pnpm/action-setup@v6
+      with:
+        version: 11.9.0
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v6
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm install
-    - run: npm run prod:test
-    - run: npm run test
+        cache: pnpm
+    - run: pnpm install --frozen-lockfile
+    - run: pnpm run prod:test
+    - run: pnpm run test

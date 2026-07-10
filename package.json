@@ -14,14 +14,14 @@
     "frontend"
   ],
   "scripts": {
-    "prepare": "npx husky install && node ./scripts/husky_init.mjs",
+    "prepare": "husky install && node ./scripts/husky_init.mjs",
     "relink": "node ./scripts/relink.js",
     "dev": "cross-env NODE_ENV=development node ./scripts/env.mjs && tsc fe.ts -w --ignoreConfig --target es2018 --module commonjs --types node --esModuleInterop --resolveJsonModule --skipLibCheck --noImplicitAny false --ignoreDeprecations 6.0",
     "prod": "cross-env NODE_ENV=production  node ./scripts/env.mjs && tsc fe.ts -w --ignoreConfig --target es2018 --module commonjs --types node --esModuleInterop --resolveJsonModule --skipLibCheck --noImplicitAny false --ignoreDeprecations 6.0",
     "prod:test": "cross-env NODE_ENV=production  node ./scripts/env.mjs && tsc fe.ts -d --ignoreConfig --target es2018 --module commonjs --types node --esModuleInterop --resolveJsonModule --skipLibCheck --noImplicitAny false --ignoreDeprecations 6.0",
     "format": "prettier --write **/*.ts --ignore-path .prettierignore",
     "test": "jest",
-    "build": "npm run prod:test && npm run format",
+    "build": "pnpm run prod:test && pnpm run format",
     "update:small": "node --experimental-modules ./scripts/version.js small",
     "update:middle": "node --experimental-modules ./scripts/version.js middle",
     "update:large": "node --experimental-modules ./scripts/version.js large"
@@ -47,5 +47,6 @@
     "jest": "^30.4.2",
     "prettier": "^3.9.5",
     "typescript": "^7.0.2"
-  }
+  },
+  "packageManager": "pnpm@11.9.0"
 }
