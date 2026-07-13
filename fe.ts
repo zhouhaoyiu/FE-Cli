@@ -19,7 +19,7 @@ if (fs.existsSync(".env")) {
 }
 
 const program = new Command();
-process.argv = process.argv.map((arg) => (arg === "-gi" ? "--gitinit" : arg));
+process.argv = process.argv.map(arg => (arg === "-gi" ? "--gitinit" : arg));
 const validProjectName = /^[a-zA-Z0-9_]+$/;
 function getValidProjectName(name: string) {
   if (!validProjectName.test(name)) {
@@ -111,7 +111,7 @@ program
 program
   .command("info")
   .description("print debugging information about your environment")
-  .action(async (cmd: any) => {
+  .action(async () => {
     font.bold("\nEnvironment Info:");
     const res = await require("envinfo").run(
       {

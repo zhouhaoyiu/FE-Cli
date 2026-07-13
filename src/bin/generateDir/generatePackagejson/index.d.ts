@@ -1,4 +1,4 @@
-declare function generatePackagejson({ projectName, author, description, version, license, typescript, eslint }: IPackageParams): Record<string, any>;
+declare function generatePackagejson({ projectName, author, description, version, license, typescript, eslint }: IPackageParams): IPackagejson;
 interface IPackageParams {
     projectName: string;
     author: string;
@@ -7,5 +7,16 @@ interface IPackageParams {
     license: string;
     typescript: boolean;
     eslint: boolean;
+}
+interface IPackagejson {
+    description: string;
+    name: string;
+    version: string;
+    main: string;
+    scripts: Record<string, string>;
+    author: string;
+    license: string;
+    dependencies: Record<string, string>;
+    devDependencies: Record<string, string>;
 }
 export default generatePackagejson;

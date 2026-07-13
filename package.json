@@ -20,6 +20,7 @@
     "prod": "cross-env NODE_ENV=production  node ./scripts/env.mjs && tsc fe.ts -w --ignoreConfig --target es2018 --module commonjs --types node --esModuleInterop --resolveJsonModule --skipLibCheck --noImplicitAny false --ignoreDeprecations 6.0",
     "prod:test": "cross-env NODE_ENV=production  node ./scripts/env.mjs && tsc fe.ts -d --ignoreConfig --target es2018 --module commonjs --types node --esModuleInterop --resolveJsonModule --skipLibCheck --noImplicitAny false --ignoreDeprecations 6.0",
     "format": "prettier --write **/*.ts --ignore-path .prettierignore",
+    "lint": "oxlint --deny typescript/no-explicit-any .",
     "test": "jest",
     "build": "pnpm run prod:test && pnpm run format",
     "update:small": "node --experimental-modules ./scripts/version.js small",
@@ -45,6 +46,7 @@
     "husky": "^9.1.7",
     "inquirer": "^8.2.4",
     "jest": "^30.4.2",
+    "oxlint": "1.73.0",
     "prettier": "^3.9.5",
     "typescript": "^7.0.2"
   },

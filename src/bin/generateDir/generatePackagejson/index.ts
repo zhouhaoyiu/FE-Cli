@@ -1,4 +1,4 @@
-function generatePackagejson({ projectName, author, description, version, license, typescript, eslint }: IPackageParams): Record<string, any> {
+function generatePackagejson({ projectName, author, description, version, license, typescript, eslint }: IPackageParams): IPackagejson {
   let packagejson: IPackagejson = {
     name: projectName,
     main: typescript ? "src/index.ts" : "src/index.js",

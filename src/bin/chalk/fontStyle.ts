@@ -1,7 +1,7 @@
 const supportFontStyle = ["red", "green", "yellow", "blue", "magenta", "cyan", "white", "bold"] as const;
 // supportColor中的一项
-type Color = typeof supportFontStyle[number];
-function fontStyle(color: Color, message: any) {
+type Color = (typeof supportFontStyle)[number];
+function fontStyle(color: Color, message: unknown) {
   switch (color) {
     case "red":
       console.log("\x1b[31m%s\x1b[0m", message);

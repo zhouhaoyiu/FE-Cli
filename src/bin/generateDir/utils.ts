@@ -18,7 +18,7 @@ function init({ projectName, description, author, version, license, gitinit, typ
     gitinit && initGit(projectName);
 
     return "init success";
-  } catch (e: any) {
+  } catch (e: unknown) {
     return String(e);
   }
 }

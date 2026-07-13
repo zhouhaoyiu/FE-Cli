@@ -1,6 +1,6 @@
 import execa from "execa";
 
-function run(command: string, args: string[]) {
+function run(command: string, args: string[]): unknown {
   if (!args) {
     [command, ...args] = command.split(/\s+/);
   }

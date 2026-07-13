@@ -1,4 +1,4 @@
-function logWithBackGroundColor(color: Color, message: any): string | undefined {
+function logWithBackGroundColor(color: Color, message: unknown): string | undefined {
   let logText: string | undefined = "";
   switch (color) {
     case "red":
