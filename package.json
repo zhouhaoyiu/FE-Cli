@@ -46,7 +46,7 @@
     "husky": "^9.1.7",
     "inquirer": "^8.2.4",
     "jest": "^30.5.2",
-    "oxlint": "1.84.0",
+    "oxlint": "1.85.0",
     "prettier": "^3.9.8",
     "typescript": "^7.0.2"
   },
