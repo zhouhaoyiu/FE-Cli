@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Lisence = exports.dependenciesInfo = exports.projectInfo = void 0;
-const projectInfo = (projectName, author) => {
+const templates_1 = require("../src/bin/templates");
+const license_1 = require("../src/bin/generateDir/license");
+const projectInfo = (projectName, author, license) => {
     return [
         {
             type: "input",
@@ -31,50 +33,34 @@ const projectInfo = (projectName, author) => {
             type: "list",
             name: "license",
             message: "License",
-            choices: Lisence
+            choices: Lisence,
+            default: license !== null && license !== void 0 ? license : "MIT"
+        },
+        {
+            type: "list",
+            name: "template",
+            message: "Project template",
+            choices: templates_1.templateNames.map(value => ({ name: templates_1.templates[value].name, value })),
+            default: "js"
         }
     ];
 };
 exports.projectInfo = projectInfo;
 const Lisence = [
-    {
-        name: "MIT",
-        value: "MIT"
-    },
-    {
-        name: "Apache",
-        value: "Apache"
-    },
-    {
-        name: "GPL",
-        value: "GPL"
-    },
-    {
-        name: "BSD",
-        value: "BSD"
-    },
-    {
-        name: "ISC",
-        value: "ISC"
-    },
+    ...license_1.licenseNames.map(value => ({ name: value, value })),
     {
         name: "skip",
         value: ""
     }
 ];
 exports.Lisence = Lisence;
-const dependenciesInfo = ({ typescript, eslint }) => {
+const dependenciesInfo = ({ eslint }) => {
     return [
         {
             type: "checkbox",
             name: "dependencies",
             message: "Which dependencies do you want to add?",
             choices: [
-                {
-                    name: "TypeScript",
-                    value: "typescript",
-                    checked: typescript
-                },
                 {
                     name: "ESLint",
                     value: "eslint",

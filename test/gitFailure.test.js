@@ -19,7 +19,7 @@ test("a failed initial commit exits nonzero and does not publish the project", a
       timeout: 10000
     });
     expect(result.code).toBe(1);
-    expect(result.stderr).toContain("git commit");
+    expect(result.stderr).toContain("commit -m init");
     expect(result.stdout).not.toContain("success created");
     expect(fs.readdirSync(root)).toEqual(["gitconfig"]);
   } finally {

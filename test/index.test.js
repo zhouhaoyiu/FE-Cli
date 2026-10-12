@@ -113,6 +113,7 @@ test("plain init completes interactive prompts and preserves the git flag", asyn
     ["Author", "\n"],
     ["Version", "\n"],
     ["License", "\n"],
+    ["Project template", "\n"],
     ["Which dependencies", "\n"]
   ]);
   const project = path.join(cwd, "interactive");
@@ -128,7 +129,7 @@ test.each(["js", "ts"])("%s template installs, runs, tests and reloads after sou
   if (template === "ts") {
     const tsc = path.join(project, "node_modules/typescript/bin/tsc");
     const config = JSON.parse((await command(process.execPath, [tsc, "--showConfig"], project)).stdout);
-    expect(config.compilerOptions).toMatchObject({ strict: true, module: "commonjs", outDir: "./dist" });
+    expect(config.compilerOptions).toMatchObject({ strict: true, module: "node16", outDir: "./dist" });
     const invalid = path.join(project, "src/invalid.ts");
     fs.writeFileSync(invalid, "const value: string = 123;\n");
     const failure = await command("npm", ["run", "build"], project, { reject: false });
@@ -140,6 +141,25 @@ test.each(["js", "ts"])("%s template installs, runs, tests and reloads after sou
   expect((await npm(["start"], project)).stdout).toContain("hello world");
   expect((await npm(["test"], project)).stdout).toContain("prints a greeting");
   await checkDevReload(project, template);
+});
+
+test("interactive React TypeScript and ESLint selections generate the requested files", async () => {
+  const cwd = workspace();
+  await interactive(["init", "interactive-web", "--author", "Tester"], cwd, [
+    ["Project name", "\n"], ["Project description", "\n"], ["Author", "\n"],
+    ["Version", "\n"], ["License", "\n"],
+    ["Project template", "\u001b[B\u001b[B\u001b[B\n"],
+    ["Which dependencies", " \n"]
+  ]);
+  const project = path.join(cwd, "interactive-web");
+  const pkg = JSON.parse(fs.readFileSync(path.join(project, "package.json"), "utf8"));
+  expect(pkg.type).toBe("module");
+  expect(pkg.dependencies.react).toBeTruthy();
+  expect(pkg.devDependencies.typescript).toBeTruthy();
+  expect(pkg.devDependencies.eslint).toBeTruthy();
+  expect(fs.existsSync(path.join(project, "src/App.tsx"))).toBe(true);
+  expect(fs.existsSync(path.join(project, "eslint.config.mjs"))).toBe(true);
+  expect(fs.readFileSync(path.join(project, "LICENSE"), "utf8")).toContain("Permission is hereby granted");
 });
 
 test.each(["--gitinit", "-gi"])("%s initializes and commits only the generated repository", async flag => {
@@ -209,7 +229,7 @@ test.each(["PORT=3000\n", "", "NODE_ENV=development\nPORT=3000\n"])("unrelated o
   expect(fs.existsSync(path.join(cwd, "demo/package.json"))).toBe(true);
 });
 
-test.each(["react", "vue2", "vue3", "missing", ""])("unsupported template %j exits nonzero before creating files", async template => {
+test.each(["vue2", "vue3", "missing", ""])("unsupported template %j exits nonzero before creating files", async template => {
   const cwd = workspace();
   const result = await runCli(["init", "demo", "-d", "--template", template], cwd, { reject: false });
   expect(result.code).toBe(1);

@@ -1,11 +1,10 @@
-declare const projectInfo: (projectName: string, author: string) => ({
+declare const projectInfo: (projectName: string, author: string, license?: string) => ({
     type: string;
     name: string;
     message: string;
     default: string;
     choices?: undefined;
 } | {
-    default?: undefined;
     type: string;
     name: string;
     message: string;
@@ -13,13 +12,13 @@ declare const projectInfo: (projectName: string, author: string) => ({
         name: string;
         value: string;
     }[];
+    default: string;
 })[];
 declare const Lisence: {
     name: string;
     value: string;
 }[];
-declare const dependenciesInfo: ({ typescript, eslint }: {
-    typescript: boolean;
+declare const dependenciesInfo: ({ eslint }: {
     eslint: boolean;
 }) => {
     type: string;

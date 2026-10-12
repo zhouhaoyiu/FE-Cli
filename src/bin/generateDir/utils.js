@@ -8,18 +8,33 @@ exports.initGit = initGit;
 exports.checkProjectNameIsExistAndAskOverwrite = checkProjectNameIsExistAndAskOverwrite;
 const inquirer_1 = __importDefault(require("inquirer"));
 const fs_1 = require("fs");
+const path_1 = __importDefault(require("path"));
 const run_1 = require("../../../utils/run");
 const generatePackagejson_1 = __importDefault(require("./generatePackagejson"));
-const tpl_1 = require("./tpl");
+const license_1 = require("./license");
+const templates_1 = require("../templates");
+const render_1 = require("../templates/render");
 async function init(opt, directory = opt.projectName) {
+    var _a;
+    const template = (0, templates_1.getTemplate)((_a = opt.template) !== null && _a !== void 0 ? _a : (opt.typescript ? "ts" : "js"));
+    (0, license_1.validateLicense)(opt.license);
+    opt = { ...opt, typescript: template.typescript };
     initRoot(directory);
-    initSrc(directory, opt.typescript);
-    initTest(directory, opt.typescript);
+    if (template.framework === "node") {
+        initSrc(directory, opt.typescript);
+        initTest(directory, opt.typescript);
+        if (opt.typescript)
+            initTsconfig(directory);
+    }
+    else {
+        (0, render_1.renderWebTemplate)(template, opt.projectName, directory);
+    }
     initPackageJson(opt, directory);
     if (opt.license)
-        initLicense(directory, opt.license);
-    if (opt.typescript)
-        initTsconfig(directory);
+        (0, fs_1.writeFileSync)(path_1.default.join(directory, "LICENSE"), (0, license_1.renderLicense)(opt.license, opt.author));
+    if (opt.eslint)
+        (0, fs_1.writeFileSync)(path_1.default.join(directory, "eslint.config.mjs"), (0, render_1.renderEslint)(template));
+    (0, fs_1.writeFileSync)(path_1.default.join(directory, ".gitignore"), "node_modules/\ndist/\n*.local\n");
     if (opt.gitinit)
         await initGit(directory);
 }
@@ -48,27 +63,39 @@ test("prints a greeting", () => {
 });
 `);
 }
-function initPackageJson({ projectName, author, typescript, eslint, description, version, license }, directory) {
-    const packageJson = (0, generatePackagejson_1.default)({ projectName, author, typescript, eslint, description, version, license });
+function initPackageJson({ projectName, author, typescript, eslint, description, version, license, template }, directory) {
+    const packageJson = (0, generatePackagejson_1.default)({ projectName, author, typescript, eslint, description, version, license, template });
     (0, fs_1.writeFileSync)(`${directory}/package.json`, JSON.stringify(packageJson, null, 2));
-}
-function initLicense(projectName, license) {
-    (0, fs_1.writeFileSync)(`${projectName}/LICENSE`, `${license}`);
 }
 function initTsconfig(projectName) {
     const config = {
-        ...tpl_1.tsconfigTemplate.default,
-        compilerOptions: { ...tpl_1.tsconfigTemplate.default.compilerOptions, rootDir: "src", outDir: "dist", noEmitOnError: true, types: [] },
+        compilerOptions: {
+            target: "ES2022",
+            module: "Node16",
+            moduleResolution: "Node16",
+            strict: true,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+            rootDir: "src",
+            outDir: "dist",
+            noEmitOnError: true,
+            types: ["node"]
+        },
         include: ["src/**/*.ts"]
     };
     (0, fs_1.writeFileSync)(`${projectName}/tsconfig.json`, JSON.stringify(config, null, 2));
 }
 async function initGit(projectName) {
-    (0, fs_1.writeFileSync)(`${projectName}/.gitignore`, "node_modules/\ndist/\n");
-    const options = { cwd: projectName };
-    await (0, run_1.run)("git", ["init"], options);
-    await (0, run_1.run)("git", ["add", "."], options);
-    await (0, run_1.run)("git", ["commit", "-m", "init"], options);
+    const directory = path_1.default.resolve(projectName);
+    const options = { cwd: directory, env: (0, run_1.isolatedGitEnvironment)(), extendEnv: false };
+    const location = ["--git-dir", path_1.default.join(directory, ".git"), "--work-tree", directory];
+    await (0, run_1.run)("git", [...location, "init"], options);
+    const result = await (0, run_1.run)("git", [...location, "rev-parse", "--show-toplevel"], options);
+    if ((0, fs_1.realpathSync)(result.stdout.trim()) !== (0, fs_1.realpathSync)(directory))
+        throw new Error("Git resolved outside the generated project.");
+    await (0, run_1.run)("git", [...location, "add", "."], options);
+    await (0, run_1.run)("git", [...location, "commit", "-m", "init"], options);
 }
 /**
  * @zhouhaoyiu

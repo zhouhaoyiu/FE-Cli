@@ -1,4 +1,7 @@
-const projectInfo = (projectName: string, author: string) => {
+import { templates, templateNames } from "../src/bin/templates";
+import { licenseNames } from "../src/bin/generateDir/license";
+
+const projectInfo = (projectName: string, author: string, license?: string) => {
   return [
     {
       type: "input",
@@ -28,49 +31,33 @@ const projectInfo = (projectName: string, author: string) => {
       type: "list",
       name: "license",
       message: "License",
-      choices: Lisence
+      choices: Lisence,
+      default: license ?? "MIT"
+    },
+    {
+      type: "list",
+      name: "template",
+      message: "Project template",
+      choices: templateNames.map(value => ({ name: templates[value].name, value })),
+      default: "js"
     }
   ];
 };
 const Lisence = [
-  {
-    name: "MIT",
-    value: "MIT"
-  },
-  {
-    name: "Apache",
-    value: "Apache"
-  },
-  {
-    name: "GPL",
-    value: "GPL"
-  },
-  {
-    name: "BSD",
-    value: "BSD"
-  },
-  {
-    name: "ISC",
-    value: "ISC"
-  },
+  ...licenseNames.map(value => ({ name: value, value })),
   {
     name: "skip",
     value: ""
   }
 ];
 
-const dependenciesInfo = ({ typescript, eslint }: { typescript: boolean; eslint: boolean }) => {
+const dependenciesInfo = ({ eslint }: { eslint: boolean }) => {
   return [
     {
       type: "checkbox",
       name: "dependencies",
       message: "Which dependencies do you want to add?",
       choices: [
-        {
-          name: "TypeScript",
-          value: "typescript",
-          checked: typescript
-        },
         {
           name: "ESLint",
           value: "eslint",

@@ -4,3 +4,6 @@
 # Fix github bug
 *.ts linguist-language=TypeScript
 *.js linguist-language=JavaScript
+
+# Preserve canonical license text, including upstream whitespace and hashes.
+src/bin/generateDir/licenses/*.txt text eol=lf -whitespace

@@ -1,4 +1,5 @@
 import { baseOpt } from "../../../type";
+import { TemplateName } from "../templates";
 declare function init(opt: baseOpt, directory?: string): Promise<void>;
 declare function initGit(projectName: string): Promise<void>;
 /**
@@ -14,5 +15,6 @@ interface IInitOpt {
     version: string;
     license: string;
     gitinit?: boolean;
+    template?: TemplateName;
 }
 export { init, initGit, IInitOpt, checkProjectNameIsExistAndAskOverwrite };

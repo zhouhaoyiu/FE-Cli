@@ -10,6 +10,9 @@ import baseOpts from "./utils/preset";
 import { font } from "./src/bin/chalk/index";
 import { IInitOpt } from "./src/bin/generateDir/utils";
 import { projectInfo, dependenciesInfo } from "./utils/promptInfo";
+import { getTemplate, templateNames, templates, TemplateName } from "./src/bin/templates";
+import { validateLicense } from "./src/bin/generateDir/license";
+import { baseOpt } from "./type";
 
 const environment =
   process.env.NODE_ENV ??
@@ -31,30 +34,39 @@ program
   .option("-d, --default", "Use default project options", false)
   .option("-g, --gitinit", "Initialize git repo", false)
   .option("-a, --author <author>", "Author in package.json")
-  .option("-t, --template <template>", "Template name (js or ts)")
-  .action(async (projectName: string, options: { author?: string; default: boolean; gitinit: boolean; template?: string }) => {
+  .option("-t, --template <template>", `Template name (${templateNames.join(", ")})`)
+  .option("--eslint", "Generate ESLint configuration and a lint command", false)
+  .option("--license <license>", "License identifier (MIT, Apache-2.0, GPL-3.0-only, BSD-3-Clause, ISC)")
+  .action(async (projectName: string, options: { author?: string; default: boolean; gitinit: boolean; template?: string; eslint: boolean; license?: string }) => {
     const author: string = (options.author ? options.author : getGitInfo("author")) || "";
-    if (options.template !== undefined && !["js", "ts"].includes(options.template)) {
-      throw new Error(`Unsupported template: ${options.template}. Choose js or ts.`);
-    }
-    const opts = { ...baseOpts, author, projectName, gitinit: options.gitinit, typescript: options.template === "ts" };
+    const template = getTemplate(options.template ?? "js");
+    validateLicense(options.license ?? "");
+    const opts: baseOpt = {
+      ...baseOpts,
+      author,
+      projectName,
+      gitinit: options.gitinit,
+      typescript: template.typescript,
+      template: (options.template ?? "js") as TemplateName,
+      eslint: options.eslint,
+      license: options.license ?? ""
+    };
     if (options.default || options.template !== undefined) {
       await generateDir(opts);
       return;
     }
 
-    const info: IInitOpt = await inquirer.prompt(projectInfo(projectName, author));
+    const info: IInitOpt = await inquirer.prompt(projectInfo(projectName, author, options.license));
     Object.assign(opts, info);
+    opts.typescript = getTemplate(opts.template ?? "js").typescript;
 
     const dependencies = await inquirer.prompt(
       dependenciesInfo({
-        typescript: opts.typescript,
         eslint: opts.eslint
       })
     );
 
     const dependenciesArr = dependencies.dependencies as string[];
-    opts.typescript = dependenciesArr.includes("typescript");
     opts.eslint = dependenciesArr.includes("eslint");
 
     if (DEV) console.log(opts);
@@ -98,8 +110,7 @@ program
   });
 program.command("template").action(() => {
   console.log("-----template-------");
-  console.log("js");
-  console.log("ts");
+  for (const name of templateNames) console.log(`${name} — ${templates[name].name}`);
 });
 program.command("*").action(() => {
   console.log("Invalid command");
