@@ -11,20 +11,17 @@ const fs_1 = require("fs");
 const run_1 = require("../../../utils/run");
 const generatePackagejson_1 = __importDefault(require("./generatePackagejson"));
 const tpl_1 = require("./tpl");
-function init({ projectName, description, author, version, license, gitinit, typescript, eslint }) {
-    try {
-        initRoot(projectName);
-        initSrc(projectName, typescript);
-        initTest(projectName);
-        initPackageJson({ projectName, author, typescript, eslint, description, version, license });
-        license && initLicense(projectName, license);
-        typescript && initTsconfig(projectName);
-        gitinit && initGit(projectName);
-        return "init success";
-    }
-    catch (e) {
-        return String(e);
-    }
+async function init(opt, directory = opt.projectName) {
+    initRoot(directory);
+    initSrc(directory, opt.typescript);
+    initTest(directory, opt.typescript);
+    initPackageJson(opt, directory);
+    if (opt.license)
+        initLicense(directory, opt.license);
+    if (opt.typescript)
+        initTsconfig(directory);
+    if (opt.gitinit)
+        await initGit(directory);
 }
 function initRoot(projectName) {
     (0, fs_1.mkdirSync)(projectName);
@@ -32,39 +29,46 @@ function initRoot(projectName) {
 function initSrc(projectName, typescript) {
     const Extension = typescript ? "ts" : "js";
     (0, fs_1.mkdirSync)(`${projectName}/src`);
-    (0, fs_1.writeFileSync)(`${projectName}/src/index.${Extension}`, 'import hello from "./hello"\n\nhello()');
+    (0, fs_1.writeFileSync)(`${projectName}/src/index.${Extension}`, typescript ? 'import hello from "./hello";\n\nhello();\n' : 'const hello = require("./hello");\n\nhello();\n');
     (0, fs_1.mkdirSync)(`${projectName}/src/hello`);
-    (0, fs_1.writeFileSync)(`${projectName}/src/hello/index.${Extension}`, 'function hello() { \n  console.log("hello world");\n}\n\nexport default hello;');
+    const exportHello = typescript ? "export default hello;" : "module.exports = hello;";
+    (0, fs_1.writeFileSync)(`${projectName}/src/hello/index.${Extension}`, `function hello() {\n  console.log("hello world");\n}\n\n${exportHello}\n`);
 }
-function initTest(projectName) {
+function initTest(projectName, typescript) {
     (0, fs_1.mkdirSync)(`${projectName}/test`);
-    (0, fs_1.writeFileSync)(`${projectName}/test/index.js`, 'import hello from "./hello"\n\nhello()');
+    const entry = typescript ? "dist/index.js" : "src/index.js";
+    (0, fs_1.writeFileSync)(`${projectName}/test/index.test.js`, `const { test } = require("node:test");
+const assert = require("node:assert/strict");
+const { execFileSync } = require("node:child_process");
+const path = require("node:path");
+
+test("prints a greeting", () => {
+  const output = execFileSync(process.execPath, [path.join(__dirname, "../${entry}")], { encoding: "utf8" });
+  assert.equal(output.trim(), "hello world");
+});
+`);
 }
-function initPackageJson({ projectName, author, typescript, eslint, description, version, license }) {
+function initPackageJson({ projectName, author, typescript, eslint, description, version, license }, directory) {
     const packageJson = (0, generatePackagejson_1.default)({ projectName, author, typescript, eslint, description, version, license });
-    (0, fs_1.writeFileSync)(`${projectName}/package.json`, JSON.stringify(packageJson, null, 2));
+    (0, fs_1.writeFileSync)(`${directory}/package.json`, JSON.stringify(packageJson, null, 2));
 }
 function initLicense(projectName, license) {
     (0, fs_1.writeFileSync)(`${projectName}/LICENSE`, `${license}`);
 }
 function initTsconfig(projectName) {
-    (0, fs_1.writeFileSync)(`${projectName}/tsconfig.json`, JSON.stringify(tpl_1.tsconfigTemplate));
+    const config = {
+        ...tpl_1.tsconfigTemplate.default,
+        compilerOptions: { ...tpl_1.tsconfigTemplate.default.compilerOptions, rootDir: "src", outDir: "dist", noEmitOnError: true, types: [] },
+        include: ["src/**/*.ts"]
+    };
+    (0, fs_1.writeFileSync)(`${projectName}/tsconfig.json`, JSON.stringify(config, null, 2));
 }
-/**
- * @deprecated 还没有完成
- * @param projectName 项目名称
- */
-function initGit(projectName) {
-    console.log(`.git will be init`);
-    (0, fs_1.mkdirSync)(`${projectName}/.gitignore`);
-    // 在.gitignore中写入默认的忽略文件 当前是node_modules
-    (0, fs_1.writeFileSync)(`${projectName}/.gitignore`, `node_modules\n`);
-    (async () => {
-        await (0, run_1.run)("cd", [projectName]);
-        await (0, run_1.run)("git", ["init"]);
-        await (0, run_1.run)("git", ["add", "."]);
-        await (0, run_1.run)("git", ["commit", "-m", "init"]);
-    })();
+async function initGit(projectName) {
+    (0, fs_1.writeFileSync)(`${projectName}/.gitignore`, "node_modules/\ndist/\n");
+    const options = { cwd: projectName };
+    await (0, run_1.run)("git", ["init"], options);
+    await (0, run_1.run)("git", ["add", "."], options);
+    await (0, run_1.run)("git", ["commit", "-m", "init"], options);
 }
 /**
  * @zhouhaoyiu
@@ -78,7 +82,7 @@ async function checkProjectNameIsExistAndAskOverwrite(projectName) {
                 type: "confirm",
                 name: "overwrite",
                 message: `${projectName} is exist, do you want to overwrite it?`,
-                default: true
+                default: false
             }
         ]);
         return overwrite.overwrite;

@@ -1,10 +1,10 @@
 import execa from "execa";
 
-function run(command: string, args: string[]): unknown {
+async function run(command: string, args: string[], options: { cwd?: string } = {}): Promise<unknown> {
   if (!args) {
     [command, ...args] = command.split(/\s+/);
   }
-  return execa(command, args);
+  return execa(command, args, options);
 }
 
 export { run };

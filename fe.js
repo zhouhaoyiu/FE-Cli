@@ -3,6 +3,8 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var _a, _b;
+var _c;
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
 const commander_1 = require("commander");
@@ -13,78 +15,44 @@ const package_json_1 = __importDefault(require("./package.json"));
 const preset_1 = __importDefault(require("./utils/preset"));
 const index_1 = require("./src/bin/chalk/index");
 const promptInfo_1 = require("./utils/promptInfo");
-let DEV = false;
-// 获得.env文件中的NODE_ENV的值
-if (fs_1.default.existsSync(".env")) {
-    const environment = fs_1.default.readFileSync(".env", "utf-8").match(/NODE_ENV=(.*)/)[1];
-    DEV = environment === "development";
-}
+const environment = (_c = process.env.NODE_ENV) !== null && _c !== void 0 ? _c : (fs_1.default.existsSync(".env")
+    ? (_b = (_a = fs_1.default
+        .readFileSync(".env", "utf-8")
+        .match(/^NODE_ENV=(.*)$/m)) === null || _a === void 0 ? void 0 : _a[1]) === null || _b === void 0 ? void 0 : _b.trim()
+    : undefined);
+const DEV = environment === "development";
 const program = new commander_1.Command();
 process.argv = process.argv.map(arg => (arg === "-gi" ? "--gitinit" : arg));
-const validProjectName = /^[a-zA-Z0-9_]+$/;
-function getValidProjectName(name) {
-    if (!validProjectName.test(name)) {
-        console.log(index_1.font.red(`项目名称不合法，只能包含字母、数字、下划线`));
-        return name.replace(/[^a-zA-Z0-9_]/g, "");
-    }
-    return name;
-}
 program.version(package_json_1.default.version);
 program
     .command("init <name>")
     // .description("Initialize a new project")
-    .option("-d, --default", "Skip prompts and use default preset", false)
+    .option("-d, --default", "Use default project options", false)
     .option("-g, --gitinit", "Initialize git repo", false)
-    .option("-a, --author <author>", "Author username for git", false)
-    .option("-t, --template <template>", "Template name", "js")
+    .option("-a, --author <author>", "Author in package.json")
+    .option("-t, --template <template>", "Template name (js or ts)")
     .action(async (projectName, options) => {
     const author = (options.author ? options.author : (0, getGitInfo_1.default)("author")) || "";
-    projectName = getValidProjectName(projectName);
-    if (options.default) {
-        index_1.font.blue("You are using the default preset.");
-        preset_1.default.author = author;
-        preset_1.default.projectName = projectName;
-        preset_1.default.gitinit = options.gitinit;
-        await (0, generateDir_1.default)(preset_1.default);
-        return;
+    if (options.template !== undefined && !["js", "ts"].includes(options.template)) {
+        throw new Error(`Unsupported template: ${options.template}. Choose js or ts.`);
     }
-    if (options.template) {
-        switch (options.template) {
-            case "js":
-                void 0;
-                break;
-            case "ts":
-                void 0;
-                break;
-            case "react":
-                void 0;
-                break;
-            case "vue2":
-                void 0;
-                break;
-            case "vue3":
-                void 0;
-                break;
-            default:
-                index_1.font.red("Template not found.");
-                break;
-        }
+    const opts = { ...preset_1.default, author, projectName, gitinit: options.gitinit, typescript: options.template === "ts" };
+    if (options.default || options.template !== undefined) {
+        await (0, generateDir_1.default)(opts);
         return;
     }
     const info = await inquirer_1.default.prompt((0, promptInfo_1.projectInfo)(projectName, author));
-    for (const key of Object.keys(info)) {
-        // @ts-ignore
-        preset_1.default[key] = info[key];
-    }
+    Object.assign(opts, info);
     const dependencies = await inquirer_1.default.prompt((0, promptInfo_1.dependenciesInfo)({
-        typescript: preset_1.default.typescript,
-        eslint: preset_1.default.eslint
+        typescript: opts.typescript,
+        eslint: opts.eslint
     }));
     const dependenciesArr = dependencies.dependencies;
-    preset_1.default.typescript = dependenciesArr.includes("typescript");
-    preset_1.default.eslint = dependenciesArr.includes("eslint");
-    DEV && console.log(preset_1.default);
-    await (0, generateDir_1.default)(preset_1.default);
+    opts.typescript = dependenciesArr.includes("typescript");
+    opts.eslint = dependenciesArr.includes("eslint");
+    if (DEV)
+        console.log(opts);
+    await (0, generateDir_1.default)(opts);
 });
 program
     .command("help")
@@ -119,20 +87,15 @@ program.command("template").action(() => {
     console.log("-----template-------");
     console.log("js");
     console.log("ts");
-    console.log("react");
-    console.log("vue2");
-    console.log("vue3");
 });
 program.command("*").action(() => {
     console.log("Invalid command");
     program.help();
 });
-class 帅哥 {
-    constructor() {
-        this.身高 = 185;
-        this.年龄 = 20;
-    }
+if (require.main === module) {
+    program.parseAsync(process.argv).catch((error) => {
+        console.error(error instanceof Error ? error.message : String(error));
+        process.exitCode = 1;
+    });
 }
-const 对象 = new 帅哥();
-program.parse(process.argv);
 exports.default = program;

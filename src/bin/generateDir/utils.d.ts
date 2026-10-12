@@ -1,10 +1,6 @@
 import { baseOpt } from "../../../type";
-declare function init({ projectName, description, author, version, license, gitinit, typescript, eslint }: baseOpt): string;
-/**
- * @deprecated 还没有完成
- * @param projectName 项目名称
- */
-declare function initGit(projectName: string): void;
+declare function init(opt: baseOpt, directory?: string): Promise<void>;
+declare function initGit(projectName: string): Promise<void>;
 /**
  * @zhouhaoyiu
  * @function 检查当前同名的项目是否存在

@@ -1,6 +1,4 @@
-const supportFontStyle = ["red", "green", "yellow", "blue", "magenta", "cyan", "white", "bold"] as const;
-// supportColor中的一项
-type Color = (typeof supportFontStyle)[number];
+type Color = "red" | "green" | "yellow" | "blue" | "magenta" | "cyan" | "white" | "bold";
 function fontStyle(color: Color, message: unknown) {
   switch (color) {
     case "red":

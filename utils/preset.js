@@ -4,7 +4,7 @@ let baseOpts = {
     projectName: "",
     description: "",
     author: "",
-    version: "",
+    version: "1.0.0",
     license: "",
     gitinit: false,
     typescript: false,

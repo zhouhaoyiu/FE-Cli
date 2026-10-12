@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const supportFontStyle = ["red", "green", "yellow", "blue", "magenta", "cyan", "white", "bold"];
 function fontStyle(color, message) {
     switch (color) {
         case "red":

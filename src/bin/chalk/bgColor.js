@@ -27,7 +27,12 @@ function logWithBackGroundColor(color, message) {
         default:
             logText = void 0;
     }
-    logText ? console.log(logText, message) : console.log(message);
+    if (logText) {
+        console.log(logText, message);
+    }
+    else {
+        console.log(message);
+    }
     return logText;
 }
 exports.default = logWithBackGroundColor;

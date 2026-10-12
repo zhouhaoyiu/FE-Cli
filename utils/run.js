@@ -5,9 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.run = run;
 const execa_1 = __importDefault(require("execa"));
-function run(command, args) {
+async function run(command, args, options = {}) {
     if (!args) {
         [command, ...args] = command.split(/\s+/);
     }
-    return (0, execa_1.default)(command, args);
+    return (0, execa_1.default)(command, args, options);
 }
