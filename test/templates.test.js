@@ -1,6 +1,7 @@
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
+const { stripVTControlCharacters } = require("node:util");
 const execa = require("execa");
 const cli = path.resolve(__dirname, "../fe.js");
 const { templateNames, templates } = require("../src/bin/templates");
@@ -17,10 +18,18 @@ beforeAll(() => {
 afterAll(() => { if (!process.env.FE_CLI_TEST_PROJECTS) fs.rmSync(root, { recursive: true, force: true }); });
 const command = (name, args, cwd, options = {}) => execa(name, args, { cwd, env, extendEnv: false, timeout: 120000, ...options });
 const npm = (args, cwd, options) => command("npm", args, cwd, options);
+const serverURL = output => stripVTControlCharacters(output).match(/http:\/\/127\.0\.0\.1:\d+\//)?.[0];
+
+test("server URL detection accepts plain and ANSI-colored Vite output", () => {
+  const url = "http://127.0.0.1:42267/";
+  expect(serverURL(`Local: ${url}`)).toBe(url);
+  expect(serverURL("\u001b[36mhttp://127.0.0.1:\u001b[1m42267\u001b[22m/\u001b[39m")).toBe(url);
+  expect(serverURL("VITE ready in 121 ms")).toBeUndefined();
+});
 
 async function withServer(project, script, inspect) {
   const child = npm(["run", script, "--", "--host", "127.0.0.1", "--port", "0"], project, {
-    detached: process.platform !== "win32", timeout: 30000
+    detached: process.platform !== "win32", timeout: 30000, env: { ...env, FORCE_COLOR: "1" }
   });
   let output = "";
   const completion = child.then(value => value, error => error);
@@ -29,8 +38,8 @@ async function withServer(project, script, inspect) {
       const timer = setTimeout(() => reject(new Error(`Server did not start: ${output}`)), 25000);
       child.stdout.on("data", chunk => {
         output += chunk;
-        const match = output.match(/http:\/\/127\.0\.0\.1:\d+\//);
-        if (match) { clearTimeout(timer); resolve(match[0]); }
+        const url = serverURL(output);
+        if (url) { clearTimeout(timer); resolve(url); }
       });
       child.stderr.on("data", chunk => { output += chunk; });
       completion.then(() => { clearTimeout(timer); reject(new Error(`Server stopped: ${output}`)); });
