@@ -37,7 +37,7 @@
     "ejs": "^7.0.1",
     "envinfo": "^7.21.0",
     "execa": "^1.0.0",
-    "inquirer": "^8.2.4",
+    "inquirer": "^8.2.7",
     "slash": "^5.1.0"
   },
   "devDependencies": {
